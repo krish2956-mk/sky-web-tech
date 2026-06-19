@@ -15,6 +15,7 @@ import {
   LayoutDashboard,
   FolderPlus,
   ChevronRight,
+  ChevronDown,
   Sparkles,
   Clock,
   Loader2,
@@ -22,7 +23,8 @@ import {
   FileText,
   Download,
   FileArchive,
-  LogOut
+  LogOut,
+  Briefcase
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -59,6 +61,20 @@ export default function ClientDashboard() {
   const [projects, setProjects] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
   const [loadingProjects, setLoadingProjects] = useState(true);
+  const [showProjectDropdown, setShowProjectDropdown] = useState(false);
+  const projectDropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (projectDropdownRef.current && !projectDropdownRef.current.contains(e.target)) {
+        setShowProjectDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const [milestones, setMilestones] = useState([]);
   
   const [adminFiles, setAdminFiles] = useState([]);
@@ -139,6 +155,22 @@ export default function ClientDashboard() {
   const [chatMessages, setChatMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const chatEndRef = useRef(null);
+
+  // Switch between projects — clears all per-project state
+  const switchProject = (project) => {
+    if (project.id === activeProject?.id) {
+      setShowProjectDropdown(false);
+      return;
+    }
+    setChatMessages([]);
+    setMilestones([]);
+    setAdminFiles([]);
+    setClientFiles([]);
+    setPendingUploadFile(null);
+    setActiveProject(project);
+    setShowProjectDropdown(false);
+    setActiveTab('progress');
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -438,25 +470,95 @@ export default function ClientDashboard() {
       {/* ── TOP NAVBAR ── */}
       <header className="relative z-20 shrink-0 px-8 h-16 flex items-center justify-between bg-white/70 backdrop-blur-2xl border-b border-slate-200">
         
-        {/* Left: Logo + Pill Tabs */}
-        <div className="flex items-center gap-6">
+        {/* Left: Logo + Project Switcher + Pill Tabs */}
+        <div className="flex items-center gap-4">
           {/* Logo */}
-          <div className="flex items-center gap-2.5 pr-6 border-r border-slate-200">
+          <div className="flex items-center gap-2.5 pr-4 border-r border-slate-200">
             <div
               className="w-7 h-7 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow-md shadow-orange-500/20"
-              style={{
-                background: 'linear-gradient(135deg, #ea580c, #f97316)',
-              }}
+              style={{ background: 'linear-gradient(135deg, #ea580c, #f97316)' }}
             >S</div>
             <span className="font-semibold text-sm tracking-tight text-slate-900">SkyWebTech</span>
           </div>
+
+          {/* ── Project Switcher Dropdown ── */}
+          {projects.length > 0 && (
+            <div className="relative" ref={projectDropdownRef}>
+              <button
+                onClick={() => setShowProjectDropdown(prev => !prev)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-orange-50 border border-orange-200 hover:bg-orange-100 transition-all group max-w-[220px]"
+              >
+                <Briefcase className="w-3.5 h-3.5 text-orange-500 shrink-0" />
+                <span className="text-xs font-bold text-orange-700 truncate">
+                  {activeProject?.title || 'Select Project'}
+                </span>
+                {projects.length > 1 && (
+                  <div className="flex items-center gap-1 ml-1 shrink-0">
+                    <span className="text-[10px] font-bold text-orange-400 bg-orange-100 rounded-full px-1.5 py-0.5">
+                      {projects.length}
+                    </span>
+                    <ChevronDown className={`w-3 h-3 text-orange-500 transition-transform ${showProjectDropdown ? 'rotate-180' : ''}`} />
+                  </div>
+                )}
+              </button>
+
+              <AnimatePresence>
+                {showProjectDropdown && projects.length > 1 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full left-0 mt-2 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/60 overflow-hidden z-50"
+                  >
+                    <div className="px-4 py-3 border-b border-slate-100">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Your Projects</p>
+                    </div>
+                    <div className="py-2 max-h-64 overflow-y-auto">
+                      {projects.map(p => (
+                        <button
+                          key={p.id}
+                          onClick={() => switchProject(p)}
+                          className={`w-full text-left px-4 py-3 flex items-start gap-3 hover:bg-slate-50 transition-colors ${
+                            activeProject?.id === p.id ? 'bg-orange-50' : ''
+                          }`}
+                        >
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+                            activeProject?.id === p.id
+                              ? 'bg-orange-500'
+                              : 'bg-slate-100'
+                          }`}>
+                            <Briefcase className={`w-4 h-4 ${
+                              activeProject?.id === p.id ? 'text-white' : 'text-slate-400'
+                            }`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-sm font-bold truncate ${
+                              activeProject?.id === p.id ? 'text-orange-700' : 'text-slate-900'
+                            }`}>{p.title}</p>
+                            <p className="text-[11px] text-slate-500 mt-0.5">
+                              {p.status || 'Active'}
+                              {p.end_date ? ` · Due ${new Date(p.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : ''}
+                            </p>
+                          </div>
+                          {activeProject?.id === p.id && (
+                            <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0 mt-1" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
           {/* Pill Tab Switcher */}
           <div className="flex items-center bg-slate-100/50 rounded-xl p-1 border border-slate-200/60 gap-1">
             {[
               { key: 'progress', label: 'Project Progress', Icon: LayoutDashboard },
               { key: 'files', label: 'Files & Deliverables', Icon: FileText },
-              { key: 'details',  label: 'Add Project Details', Icon: FolderPlus },
+              { key: 'details', label: 'Add Project Details', Icon: FolderPlus },
             ].map(({ key, label, Icon }) => (
               <button
                 key={key}
