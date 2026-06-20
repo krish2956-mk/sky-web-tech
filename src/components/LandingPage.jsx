@@ -421,87 +421,50 @@ export default function LandingPage() {
                     >
                       Start Project <ChevronRight className="w-4 h-4 text-white/70 group-hover:translate-x-1 transition-transform" />
                     </button>
+                    <p className="text-white/60 text-base md:text-lg lg:text-xl font-light mb-10 max-w-xl leading-relaxed">
+                      Elevate your business with state-of-the-art UI/UX, scalable architecture, and flawless cloud deployments. The future of your digital presence starts here.
+                    </p>
 
-                    {/* Floating cursor */}
-                    <motion.div
-                      animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
-                      transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-                      className="absolute -bottom-16 left-32 flex-col items-start gap-1 hidden md:flex"
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="group relative px-8 py-4 bg-white text-black rounded-full font-semibold text-lg overflow-hidden flex items-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
                     >
-                      <MousePointer2 className="w-6 h-6 text-[#f97316] fill-[#f97316] -rotate-12" />
-                      <div className="bg-[#f97316] text-white text-xs font-medium px-4 py-1.5 rounded-full shadow-lg ml-4">
-                        Admin
-                      </div>
-                    </motion.div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      Start Project
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </motion.button>
                   </motion.div>
-                </div>
 
-                {/* ── 3D Black Hole / Tech Core — Desktop (right side) ── */}
-                <div className="absolute right-[2%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-[520px] h-[520px] pointer-events-none z-10">
-                  <div className="bh-scene">
-                    {/* Ambient outer glow */}
-                    <div className="bh-glow" />
-                    
-                    {/* Accretion Disk (Horizontal rings) */}
-                    <div className="bh-disk-group">
-                      <div className="bh-disk disk-1" />
-                      <div className="bh-disk disk-2" />
-                      <div className="bh-disk disk-3" />
-                      
-                      {/* Data particles orbiting in the disk */}
-                      <div className="data-particle dp-1" />
-                      <div className="data-particle dp-2" />
-                      <div className="data-particle dp-3" />
-                    </div>
-
-                    {/* The Event Horizon (Dark Core + Photon Ring) */}
-                    <div className="bh-core">
-                      <div className="bh-photon-ring" />
-                      <div className="bh-event-horizon" />
-                    </div>
-
-                    {/* Vertical Energy Jet (Optional but adds to the tech feel) */}
-                    <div className="bh-jet" />
-
-                    {/* Floating service labels synced to the tech theme */}
-                    <motion.div
-                      animate={{ y: [0, -8, 0], opacity: [0.8, 1, 0.8] }}
-                      transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                      className="absolute top-[12%] right-[5%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
-                    >
-                      <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">UI/UX Design</p>
-                      <p className="text-white/60 text-[10px]">Pixel-perfect</p>
-                    </motion.div>
-                    <motion.div
-                      animate={{ y: [0, 10, 0], opacity: [0.7, 1, 0.7] }}
-                      transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut', delay: 1 }}
-                      className="absolute bottom-[18%] left-[0%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
-                    >
-                      <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Full-Stack Dev</p>
-                      <p className="text-white/60 text-[10px]">Modern architecture</p>
-                    </motion.div>
-                    <motion.div
-                      animate={{ y: [0, -6, 0], opacity: [0.75, 1, 0.75] }}
-                      transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut', delay: 2 }}
-                      className="absolute bottom-[8%] right-[8%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
-                    >
-                      <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Cloud Deploy</p>
-                      <p className="text-white/60 text-[10px]">Zero downtime</p>
-                    </motion.div>
-                  </div>
-                </div>
-
-                {/* ── 3D Black Hole / Tech Core — Mobile ── */}
-                <div className="lg:hidden absolute top-[65%] sm:top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none opacity-90 z-0">
-                  <div className="bh-scene" style={{ width: '280px', height: '280px' }}>
-                    <div className="bh-glow" />
-                    <div className="bh-disk-group">
-                      <div className="bh-disk disk-1" />
-                      <div className="bh-disk disk-2" />
-                    </div>
-                    <div className="bh-core">
-                      <div className="bh-photon-ring" />
-                      <div className="bh-event-horizon" />
+                  {/* ── 3D Isometric Glass Cards — Desktop & Mobile ── */}
+                  <div className="w-full lg:w-1/2 flex items-center justify-center mt-16 lg:mt-0 lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[350px] lg:h-[500px] pointer-events-none z-10">
+                    <div className="iso-scene">
+                      <div className="iso-stack">
+                        {/* Layer 3 - Cloud */}
+                        <div className="iso-card layer-3">
+                          <div className="iso-content">
+                            <Cloud className="w-8 h-8 text-blue-400 mb-2" />
+                            <h3 className="text-white font-bold text-sm">Cloud Scale</h3>
+                            <p className="text-white/50 text-[10px]">Zero-downtime</p>
+                          </div>
+                        </div>
+                        {/* Layer 2 - Dev */}
+                        <div className="iso-card layer-2">
+                          <div className="iso-content">
+                            <Cpu className="w-8 h-8 text-emerald-400 mb-2" />
+                            <h3 className="text-white font-bold text-sm">Architecture</h3>
+                            <p className="text-white/50 text-[10px]">Scalable backend</p>
+                          </div>
+                        </div>
+                        {/* Layer 1 - UI/UX (Top) */}
+                        <div className="iso-card layer-1">
+                          <div className="iso-content">
+                            <MousePointer2 className="w-8 h-8 text-orange-400 mb-2" />
+                            <h3 className="text-white font-bold text-sm">UI/UX Design</h3>
+                            <p className="text-white/50 text-[10px]">Pixel-perfect</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

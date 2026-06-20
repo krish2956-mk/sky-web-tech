@@ -7,213 +7,94 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   3D BLACK HOLE & DIGITAL CORE — Landing Page Hero
+   3D ISOMETRIC GLASS CARDS — Landing Page Hero
    ═══════════════════════════════════════════════════════════════ */
 
-.bh-scene {
+.iso-scene {
   position: relative;
   width: 100%;
   height: 100%;
-  perspective: 1200px;
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iso-stack {
+  position: relative;
+  width: 240px;
+  height: 240px;
   transform-style: preserve-3d;
+  transform: rotateX(55deg) rotateZ(-45deg);
+  animation: isoFloat 8s ease-in-out infinite;
 }
 
-/* Ambient deep-space glow */
-.bh-glow {
+@keyframes isoFloat {
+  0%, 100% { transform: rotateX(55deg) rotateZ(-45deg) translateZ(0px); }
+  50% { transform: rotateX(55deg) rotateZ(-45deg) translateZ(20px); }
+}
+
+.iso-card {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120%;
-  height: 120%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(234, 88, 12, 0.25) 0%,
-    rgba(249, 115, 22, 0.1) 30%,
-    rgba(15, 16, 22, 0.8) 60%,
-    transparent 80%
-  );
-  border-radius: 50%;
-  filter: blur(50px);
-  z-index: -1;
-  animation: bhPulse 8s ease-in-out infinite alternate;
-}
-
-@keyframes bhPulse {
-  0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-}
-
-/* ── Accretion Disk (The glowing swirling rings) ── */
-.bh-disk-group {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  transform: translate(-50%, -50%) rotateX(75deg); /* extreme tilt for 3D depth */
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    -10px 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+  transition: all 0.5s ease;
+}
+
+/* Base states for layers */
+.layer-1 {
+  transform: translateZ(80px);
+  border-left: 2px solid rgba(249, 115, 22, 0.5); /* Orange accent */
+  border-bottom: 2px solid rgba(249, 115, 22, 0.5);
+  animation: layerPulse1 4s infinite alternate;
+}
+
+.layer-2 {
+  transform: translateZ(40px);
+  border-left: 2px solid rgba(16, 185, 129, 0.5); /* Emerald accent */
+  border-bottom: 2px solid rgba(16, 185, 129, 0.5);
+  animation: layerPulse2 5s infinite alternate;
+}
+
+.layer-3 {
+  transform: translateZ(0px);
+  border-left: 2px solid rgba(56, 189, 248, 0.5); /* Blue accent */
+  border-bottom: 2px solid rgba(56, 189, 248, 0.5);
+  animation: layerPulse3 6s infinite alternate;
+}
+
+/* Subtle individual breathing for each layer */
+@keyframes layerPulse1 {
+  from { transform: translateZ(80px); }
+  to { transform: translateZ(95px); }
+}
+@keyframes layerPulse2 {
+  from { transform: translateZ(40px); }
+  to { transform: translateZ(50px); }
+}
+@keyframes layerPulse3 {
+  from { transform: translateZ(0px); }
+  to { transform: translateZ(5px); }
+}
+
+.iso-content {
+  transform: rotateZ(45deg) rotateX(-55deg) translateZ(30px);
   transform-style: preserve-3d;
-}
-
-.bh-disk {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid transparent;
-}
-
-/* Disk 1 — Outer bright sweep */
-.disk-1 {
-  width: 480px;
-  height: 480px;
-  border-left-color: rgba(251, 146, 60, 0.9);
-  border-bottom-color: rgba(249, 115, 22, 0.4);
-  box-shadow: 
-    -20px 0 60px rgba(251, 146, 60, 0.4),
-    inset 20px 0 60px rgba(251, 146, 60, 0.3);
-  animation: diskSpin 12s linear infinite;
-  filter: blur(1px);
-}
-
-/* Disk 2 — Inner intense heat / speed */
-.disk-2 {
-  width: 360px;
-  height: 360px;
-  border-right-color: rgba(255, 237, 213, 0.8);
-  border-top-color: rgba(234, 88, 12, 0.6);
-  box-shadow: 
-    20px 0 40px rgba(234, 88, 12, 0.5),
-    inset -20px 0 40px rgba(234, 88, 12, 0.4);
-  animation: diskSpin 6s linear infinite reverse;
-  filter: blur(2px);
-}
-
-/* Disk 3 — Widest faint digital ring */
-.disk-3 {
-  width: 580px;
-  height: 580px;
-  border-left-color: rgba(249, 115, 22, 0.3);
-  border-right-color: rgba(251, 146, 60, 0.1);
-  border-style: dashed;
-  animation: diskSpin 20s linear infinite;
-  opacity: 0.5;
-}
-
-@keyframes diskSpin {
-  0% { transform: translate(-50%, -50%) rotateZ(0deg); }
-  100% { transform: translate(-50%, -50%) rotateZ(360deg); }
-}
-
-/* ── Data Particles (orbiting the disk to fit the tech/IT theme) ── */
-.data-particle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #fff, 0 0 20px #fb923c;
-}
-
-.dp-1 {
-  transform: translate(-50%, -50%) rotateZ(0deg) translateX(240px);
-  animation: orbitParticle 4s linear infinite;
-}
-.dp-2 {
-  transform: translate(-50%, -50%) rotateZ(120deg) translateX(180px);
-  animation: orbitParticle 5s linear infinite;
-}
-.dp-3 {
-  transform: translate(-50%, -50%) rotateZ(240deg) translateX(290px);
-  animation: orbitParticle 7s linear infinite;
-}
-
-@keyframes orbitParticle {
-  from { transform: translate(-50%, -50%) rotateZ(0deg) translateX(var(--radius, 200px)); }
-  to { transform: translate(-50%, -50%) rotateZ(360deg) translateX(var(--radius, 200px)); }
-}
-
-/* Dynamically set radius for particles so they orbit nicely */
-.dp-1 { --radius: 240px; }
-.dp-2 { --radius: 180px; }
-.dp-3 { --radius: 290px; }
-
-/* ── The Event Horizon & Photon Ring ── */
-.bh-core {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 140px;
-  height: 140px;
-  transform: translate(-50%, -50%);
-  transform-style: preserve-3d;
-  z-index: 10;
-}
-
-/* Pure black hole center */
-.bh-event-horizon {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: #000;
-  box-shadow: 
-    inset 0 0 40px rgba(0,0,0,1),
-    0 0 10px rgba(0,0,0,1);
-  z-index: 2;
-}
-
-/* Photon sphere (the intense ring of light bending around the black hole) */
-.bh-photon-ring {
-  position: absolute;
-  top: -15%;
-  left: -15%;
-  right: -15%;
-  bottom: -15%;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    transparent 50%,
-    rgba(255, 237, 213, 0.9) 58%,
-    rgba(249, 115, 22, 0.8) 65%,
-    transparent 75%
-  );
-  filter: blur(3px);
-  z-index: 1;
-  box-shadow: 0 0 60px rgba(251, 146, 60, 0.6);
-  animation: photonPulse 2s ease-in-out infinite alternate;
-}
-
-@keyframes photonPulse {
-  0% { transform: scale(0.98); opacity: 0.8; }
-  100% { transform: scale(1.02); opacity: 1; }
-}
-
-/* ── Relativistic Jet (Tech energy beam) ── */
-.bh-jet {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 50%;
-  width: 40px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(249, 115, 22, 0.1) 20%,
-    rgba(251, 146, 60, 0.4) 50%,
-    rgba(249, 115, 22, 0.1) 80%,
-    transparent 100%
-  );
-  filter: blur(8px);
-  z-index: 5;
-  mix-blend-mode: screen;
-  animation: jetFlicker 0.15s infinite alternate;
-}
-
-@keyframes jetFlicker {
-  0% { opacity: 0.7; transform: translateX(-50%) scaleY(1); }
-  100% { opacity: 1; transform: translateX(-50%) scaleY(1.05); }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 }
