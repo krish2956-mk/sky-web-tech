@@ -445,7 +445,6 @@ export default function LandingPage() {
                         <div className="data-particle dp-1" />
                         <div className="data-particle dp-2" />
                         <div className="data-particle dp-3" />
-                      </div>
 
                         {/* ── Solar System Orbits ── */}
                         
