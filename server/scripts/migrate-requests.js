@@ -14,7 +14,9 @@ async function migrateRequests() {
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || '',
-      database: process.env.DB_NAME || 'client_portal'
+      database: process.env.DB_NAME || 'client_portal',
+      port: process.env.DB_PORT || 3306,
+      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: true } : undefined,
     });
 
     console.log('Creating project_requests table...');
