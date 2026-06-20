@@ -7,7 +7,7 @@ import {
   ArrowRight, CheckCircle2, LogOut
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import BubbleScene from './BubbleScene';
+import TechScene from './TechScene';
 
 // ─── Page Content Definitions ────────────────────────────────────
 
@@ -429,9 +429,9 @@ export default function LandingPage() {
                       <ChevronRight className="w-4 h-4 text-white/70 group-hover:translate-x-1 transition-transform relative z-10" />
                     </motion.button>
                   </motion.div>
-                  {/* ── 3D Dense Bubble Cloud — Desktop Only ── */}
-                  <div className="hidden lg:flex w-full lg:w-1/2 items-center justify-center lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[600px] pointer-events-none z-10">
-                    <BubbleScene />
+                  {/* ── 3D Floating Tech Scene — Desktop Only ── */}
+                  <div className="hidden lg:flex w-full lg:w-1/2 items-center justify-center lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[600px] pointer-events-auto z-10">
+                    <TechScene />
                   </div>
 
                   {/* ── Mobile Orange Bubbles Animation ── */}
