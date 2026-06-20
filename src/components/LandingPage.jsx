@@ -400,7 +400,7 @@ export default function LandingPage() {
                   >
                     {/* Mobile-only nav removed from here */}
 
-                    <h1 className="text-[3rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.05] tracking-tight font-medium">
+                    <h1 className="text-[2.75rem] sm:text-[3rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.15] md:leading-[1.1] tracking-tight font-bold">
                       <span className="text-[#0a0a0f]">
                         Unlock Seamless <br />
                         Project Delivery <br />
@@ -486,27 +486,33 @@ export default function LandingPage() {
 
                   {/* ── Mobile Orange Bubbles Animation ── */}
                   <div className="lg:hidden absolute inset-0 pointer-events-none overflow-hidden z-0">
-                    {[...Array(8)].map((_, i) => (
+                    {[
+                      { left: '10%', size: 60, delay: 0, duration: 6 },
+                      { left: '30%', size: 80, delay: 2, duration: 8 },
+                      { left: '50%', size: 50, delay: 1, duration: 5 },
+                      { left: '70%', size: 90, delay: 3, duration: 7 },
+                      { left: '90%', size: 70, delay: 0.5, duration: 6 },
+                      { left: '20%', size: 100, delay: 4, duration: 9 },
+                    ].map((bubble, i) => (
                       <motion.div
                         key={i}
                         animate={{
-                          y: ['100vh', '-20vh'],
-                          x: [Math.random() * 40 - 20, Math.random() * 40 - 20],
-                          opacity: [0, 0.4, 0],
-                          scale: [0.5, 1.5, 0.8]
+                          y: ['120vh', '-20vh'],
+                          opacity: [0, 0.8, 0],
+                          scale: [0.8, 1.2, 0.8]
                         }}
                         transition={{
-                          duration: Math.random() * 4 + 5,
+                          duration: bubble.duration,
                           repeat: Infinity,
-                          ease: 'easeInOut',
-                          delay: Math.random() * 3
+                          ease: 'linear',
+                          delay: bubble.delay
                         }}
-                        className="absolute bottom-0 rounded-full blur-2xl"
+                        className="absolute bottom-0 rounded-full blur-[10px]"
                         style={{
-                          left: `${10 + i * 10}%`,
-                          width: `${Math.random() * 80 + 40}px`,
-                          height: `${Math.random() * 80 + 40}px`,
-                          background: 'radial-gradient(circle, rgba(249,115,22,0.8) 0%, rgba(234,88,12,0.2) 70%, transparent 100%)',
+                          left: bubble.left,
+                          width: `${bubble.size}px`,
+                          height: `${bubble.size}px`,
+                          background: 'radial-gradient(circle, rgba(249,115,22,0.95) 0%, rgba(234,88,12,0.4) 70%, transparent 100%)',
                         }}
                       />
                     ))}
