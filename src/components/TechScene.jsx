@@ -7,7 +7,7 @@ const OrbitRing = ({ radius, duration, reverse, dashed, children }) => {
     <>
       {/* The visible ring */}
       <div 
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border ${dashed ? 'border-dashed border-white/10' : 'border-white/5'}`}
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-[1px] ${dashed ? 'border-dashed border-white/30' : 'border-white/20'}`}
         style={{ width: radius * 2, height: radius * 2 }}
       />
       {/* The rotating container */}
