@@ -368,13 +368,11 @@ export default function LandingPage() {
               </div>
             )}
             <Link
-              to={isLoggedIn ? dashboardPath : "/dashboard"}
-              className="bg-[#0f1016] text-white px-5 py-2 rounded-full text-sm font-medium transition-all"
-              style={{ boxShadow: '0 0 15px rgba(234,88,12,0.4)' }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 22px rgba(234,88,12,0.65)'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 0 15px rgba(234,88,12,0.4)'}
+              to={isLoggedIn ? dashboardPath : "/auth"}
+              className="text-white/70 hover:text-white font-medium text-sm flex items-center gap-2 transition-colors"
             >
-              {isLoggedIn ? 'Go to Dashboard' : 'Client Portal'}
+              {isLoggedIn ? 'Dashboard' : 'Client Portal'}
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </nav>
@@ -415,29 +413,24 @@ export default function LandingPage() {
                       </span>
                     </h1>
 
-                    <button 
-                      onClick={() => routerNavigate(isLoggedIn ? dashboardPath : '/auth')}
-                      className="mt-10 bg-[#0f1016] text-white px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-black transition-colors shadow-lg group"
-                    >
-                      Start Project <ChevronRight className="w-4 h-4 text-white/70 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <p className="text-white/60 text-base md:text-lg lg:text-xl font-light mb-10 max-w-xl leading-relaxed">
+                    <p className="text-white/60 text-base md:text-lg lg:text-xl font-light mb-10 mt-6 max-w-xl leading-relaxed">
                       Elevate your business with state-of-the-art UI/UX, scalable architecture, and flawless cloud deployments. The future of your digital presence starts here.
                     </p>
 
                     <motion.button
+                      onClick={() => routerNavigate(isLoggedIn ? dashboardPath : '/auth')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="group relative px-8 py-4 bg-white text-black rounded-full font-semibold text-lg overflow-hidden flex items-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      Start Project
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      <span className="relative z-10">Start Project</span>
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
                     </motion.button>
                   </motion.div>
 
-                  {/* ── 3D Isometric Glass Cards — Desktop & Mobile ── */}
-                  <div className="w-full lg:w-1/2 flex items-center justify-center mt-16 lg:mt-0 lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[350px] lg:h-[500px] pointer-events-none z-10">
+                  {/* ── 3D Isometric Glass Cards — Desktop Only ── */}
+                  <div className="hidden lg:flex w-full lg:w-1/2 items-center justify-center lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[500px] pointer-events-none z-10">
                     <div className="iso-scene">
                       <div className="iso-stack">
                         {/* Layer 3 - Cloud */}
@@ -465,6 +458,45 @@ export default function LandingPage() {
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* ── Mobile Flat Feature Cards ── */}
+                  <div className="lg:hidden w-full mt-16 flex flex-col gap-4 z-20 pb-24">
+                    <div className="bg-[#121217]/80 backdrop-blur-md border-t-[3px] border-t-orange-500 border-x border-b border-white/5 rounded-2xl p-6 flex flex-col gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02]">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
+                          <MousePointer2 className="w-5 h-5 text-orange-400" />
+                        </div>
+                        <h3 className="text-white font-bold text-lg tracking-tight">UI/UX Design</h3>
+                      </div>
+                      <p className="text-white/50 text-sm leading-relaxed ml-14">
+                        Pixel-perfect, user-centric interfaces crafted to engage and convert your audience.
+                      </p>
+                    </div>
+
+                    <div className="bg-[#121217]/80 backdrop-blur-md border-t-[3px] border-t-emerald-500 border-x border-b border-white/5 rounded-2xl p-6 flex flex-col gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02]">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                          <Cpu className="w-5 h-5 text-emerald-400" />
+                        </div>
+                        <h3 className="text-white font-bold text-lg tracking-tight">Scalable Architecture</h3>
+                      </div>
+                      <p className="text-white/50 text-sm leading-relaxed ml-14">
+                        Robust backend solutions built to handle millions of requests without breaking a sweat.
+                      </p>
+                    </div>
+
+                    <div className="bg-[#121217]/80 backdrop-blur-md border-t-[3px] border-t-blue-500 border-x border-b border-white/5 rounded-2xl p-6 flex flex-col gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02]">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+                          <Cloud className="w-5 h-5 text-blue-400" />
+                        </div>
+                        <h3 className="text-white font-bold text-lg tracking-tight">Cloud Deployment</h3>
+                      </div>
+                      <p className="text-white/50 text-sm leading-relaxed ml-14">
+                        Zero-downtime, continuous deployment pipelines using modern cloud infrastructure.
+                      </p>
                     </div>
                   </div>
                 </div>
