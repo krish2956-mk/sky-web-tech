@@ -487,32 +487,35 @@ export default function LandingPage() {
                   {/* ── Mobile Orange Bubbles Animation ── */}
                   <div className="lg:hidden absolute inset-0 pointer-events-none overflow-hidden z-0">
                     {[
-                      { left: '10%', size: 60, delay: 0, duration: 6 },
-                      { left: '30%', size: 80, delay: 2, duration: 8 },
-                      { left: '50%', size: 50, delay: 1, duration: 5 },
-                      { left: '70%', size: 90, delay: 3, duration: 7 },
-                      { left: '90%', size: 70, delay: 0.5, duration: 6 },
-                      { left: '20%', size: 100, delay: 4, duration: 9 },
+                      { left: '15%', size: 40, delay: 0, duration: 4, endY: '-40vh' },
+                      { left: '35%', size: 60, delay: 1.5, duration: 5, endY: '-60vh' },
+                      { left: '55%', size: 30, delay: 0.5, duration: 3.5, endY: '-30vh' },
+                      { left: '75%', size: 70, delay: 2.5, duration: 6, endY: '-70vh' },
+                      { left: '85%', size: 45, delay: 1, duration: 4.5, endY: '-50vh' },
+                      { left: '25%', size: 55, delay: 3, duration: 5.5, endY: '-55vh' },
                     ].map((bubble, i) => (
                       <motion.div
                         key={i}
                         animate={{
-                          y: ['120vh', '-20vh'],
-                          opacity: [0, 0.8, 0],
-                          scale: [0.8, 1.2, 0.8]
+                          y: ['10vh', bubble.endY],
+                          x: ['-15px', '15px', '-15px'],
+                          opacity: [0, 0.9, 0],
+                          scale: [0.5, 1, 1.4]
                         }}
                         transition={{
-                          duration: bubble.duration,
-                          repeat: Infinity,
-                          ease: 'linear',
-                          delay: bubble.delay
+                          y: { duration: bubble.duration, repeat: Infinity, ease: 'easeOut', delay: bubble.delay },
+                          x: { duration: bubble.duration / 2, repeat: Infinity, ease: 'easeInOut', delay: bubble.delay },
+                          opacity: { duration: bubble.duration, repeat: Infinity, ease: 'easeOut', delay: bubble.delay },
+                          scale: { duration: bubble.duration, repeat: Infinity, ease: 'easeOut', delay: bubble.delay }
                         }}
-                        className="absolute bottom-0 rounded-full blur-[10px]"
+                        className="absolute bottom-[-10%] rounded-full backdrop-blur-sm"
                         style={{
                           left: bubble.left,
                           width: `${bubble.size}px`,
                           height: `${bubble.size}px`,
-                          background: 'radial-gradient(circle, rgba(249,115,22,0.95) 0%, rgba(234,88,12,0.4) 70%, transparent 100%)',
+                          background: 'rgba(249, 115, 22, 0.15)',
+                          border: '1px solid rgba(249, 115, 22, 0.5)',
+                          boxShadow: '0 0 20px rgba(249, 115, 22, 0.4), inset 0 0 15px rgba(249, 115, 22, 0.3)'
                         }}
                       />
                     ))}
