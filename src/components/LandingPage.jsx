@@ -400,7 +400,7 @@ export default function LandingPage() {
                   >
                     {/* Mobile-only nav removed from here */}
 
-                    <h1 className="text-[2.5rem] sm:text-[3rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.05] md:leading-[1.1] tracking-tight font-bold">
+                    <h1 className="text-[3.25rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.15] md:leading-[1.1] tracking-tight font-bold">
                       <span className="text-[#0a0a0f]">
                         Unlock Seamless <br />
                         Project Delivery <br />
