@@ -10,8 +10,38 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // ─── Page Content Definitions ────────────────────────────────────
 
-const SERVICES_CONTENT = () => (
-  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 py-16">
+const NAV_LINKS = [
+  { key: 'services', label: 'Services' },
+  { key: 'company',  label: 'Company' },
+  { key: 'contact',  label: 'Contact' },
+];
+
+const PageTabs = ({ activePage, navigate }) => (
+  <div className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-black/40 backdrop-blur-xl rounded-full p-2 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+    <button
+      onClick={() => navigate('home')}
+      className={`flex items-center justify-center w-11 h-11 rounded-full text-sm font-medium transition-all duration-300 ${
+        activePage === 'home' ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)] scale-105' : 'text-white/60 hover:text-white hover:bg-white/10'
+      }`}
+    >
+      <Home className="w-5 h-5" />
+    </button>
+    {NAV_LINKS.map(({ key, label }) => (
+      <button
+        key={key}
+        onClick={() => navigate(key)}
+        className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+          activePage === key ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)] scale-105' : 'text-white/60 hover:text-white hover:bg-white/10'
+        }`}
+      >
+        {label}
+      </button>
+    ))}
+  </div>
+);
+
+const SERVICES_CONTENT = ({ activePage, navigate }) => (
+  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 pt-16 pb-32 md:py-16">
     <div className="mb-12">
       <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-3 drop-shadow-md">What We Do</p>
       <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-4 drop-shadow-lg">
@@ -81,8 +111,8 @@ const SERVICES_CONTENT = () => (
   </div>
 );
 
-const COMPANY_CONTENT = () => (
-  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 py-16">
+const COMPANY_CONTENT = ({ activePage, navigate }) => (
+  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 pt-16 pb-32 md:py-16">
     <div className="mb-12">
       <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-3 drop-shadow-md">Who We Are</p>
       <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-4 drop-shadow-lg">
@@ -147,8 +177,8 @@ const COMPANY_CONTENT = () => (
   </div>
 );
 
-const CONTACT_CONTENT = () => (
-  <div className="w-full max-w-5xl mx-auto px-8 md:px-12 py-16">
+const CONTACT_CONTENT = ({ activePage, navigate }) => (
+  <div className="w-full max-w-5xl mx-auto px-8 md:px-12 pt-16 pb-32 md:py-16">
     <div className="mb-14 text-center max-w-3xl mx-auto">
       <p className="text-white/80 text-sm font-bold uppercase tracking-widest mb-4 drop-shadow-md">Get In Touch</p>
       <h2 className="text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight mb-6 drop-shadow-lg">
@@ -161,7 +191,6 @@ const CONTACT_CONTENT = () => (
     </div>
 
     <div className="max-w-2xl mx-auto">
-      {/* Contact Info */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
@@ -210,25 +239,17 @@ const slideVariants = {
   exit: (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
 };
 
-const PAGES = ['home', 'services', 'company', 'contact'];
-
 export default function LandingPage() {
   const [activePage, setActivePage] = useState('home');
   const [direction, setDirection] = useState(1);
   const routerNavigate = useNavigate();
 
   const navigate = (page) => {
-    const currentIdx = PAGES.indexOf(activePage);
-    const targetIdx = PAGES.indexOf(page);
+    const currentIdx = ['home', 'services', 'company', 'contact'].indexOf(activePage);
+    const targetIdx = ['home', 'services', 'company', 'contact'].indexOf(page);
     setDirection(targetIdx > currentIdx ? 1 : -1);
     setActivePage(page);
   };
-
-  const navLinks = [
-    { key: 'services', label: 'Services' },
-    { key: 'company',  label: 'Company' },
-    { key: 'contact',  label: 'Contact' },
-  ];
 
   const isLoggedIn = !!localStorage.getItem('token');
   const userRole = localStorage.getItem('userRole');
@@ -260,14 +281,12 @@ export default function LandingPage() {
       className="w-full min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-white overflow-hidden"
       style={{ background: '#0a0a0f' }}
     >
-      {/* ─── HERO WRAPPER — full screen with gradient bg ──────────── */}
       <div
         className="relative w-full h-screen flex flex-col shrink-0 overflow-hidden"
         style={{
           background: 'radial-gradient(circle at 15% 20%, #ffffff 0%, #ea580c 45%, #121217 85%)'
         }}
       >
-        {/* Dark overlay for non-hero pages for readability */}
         <AnimatePresence>
           {activePage !== 'home' && (
             <motion.div
@@ -283,20 +302,27 @@ export default function LandingPage() {
 
         {/* ─── TOP NAVBAR ─────────────────────────────────────────── */}
         <nav className="relative z-20 w-full px-8 md:px-12 pt-8 flex items-center justify-between shrink-0">
-          {/* Logo / Home button */}
           <button
             onClick={() => navigate('home')}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-3 group"
           >
-            <div className="w-6 h-6 bg-black rounded-md flex items-center justify-center text-white font-bold text-xs group-hover:bg-orange-600 transition-colors">
-              S
+            <div
+              className="relative w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-[0_4px_15px_rgba(234,88,12,0.4)] overflow-hidden ring-2 ring-orange-50 group-hover:scale-105 transition-transform"
+              style={{ background: 'linear-gradient(135deg, #ea580c, #f97316)' }}
+            >
+              <div className="absolute inset-0 bg-white/25" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 30%, 0 80%)' }} />
+              <Cloud className="relative z-10 w-4 h-4 fill-white/20 stroke-[2.5px]" style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.15))' }} />
             </div>
-            <span className="font-semibold text-lg text-black tracking-tight">SkyWebTech</span>
+            <div className="flex flex-col text-left">
+              <span className="font-extrabold text-[15px] tracking-tight leading-none text-black">
+                SkyWeb<span className="text-orange-600">Tech</span>
+              </span>
+              <span className="text-[9px] font-bold text-black/50 uppercase tracking-[0.2em] leading-none mt-1">Client Portal</span>
+            </div>
           </button>
 
-          {/* Center Nav */}
+          {/* Center Nav — desktop only */}
           <div className="hidden md:flex items-center gap-1 bg-black/20 backdrop-blur-sm rounded-full px-2 py-1.5 border border-white/10">
-            {/* Home link */}
             <button
               onClick={() => navigate('home')}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-all ${
@@ -308,7 +334,7 @@ export default function LandingPage() {
               <Home className="w-3.5 h-3.5" />
               Home
             </button>
-            {navLinks.map(({ key, label }) => (
+            {NAV_LINKS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => navigate(key)}
@@ -374,6 +400,8 @@ export default function LandingPage() {
                     transition={{ duration: 0.6 }}
                     className="w-full lg:w-1/2 relative"
                   >
+                    {/* Mobile-only nav removed from here */}
+
                     <h1 className="text-[3rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.05] tracking-tight font-medium">
                       <span className="text-[#0a0a0f]">
                         Unlock Seamless <br />
@@ -387,8 +415,11 @@ export default function LandingPage() {
                       </span>
                     </h1>
 
-                    <button className="mt-10 bg-[#0f1016] text-white px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-black transition-colors shadow-lg">
-                      Start Project <ChevronRight className="w-4 h-4 text-white/70" />
+                    <button 
+                      onClick={() => routerNavigate(isLoggedIn ? dashboardPath : '/auth')}
+                      className="mt-10 bg-[#0f1016] text-white px-6 py-3 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-black transition-colors shadow-lg group"
+                    >
+                      Start Project <ChevronRight className="w-4 h-4 text-white/70 group-hover:translate-x-1 transition-transform" />
                     </button>
 
                     {/* Floating cursor */}
@@ -583,6 +614,9 @@ export default function LandingPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Global Mobile Nav Dock */}
+      <PageTabs activePage={activePage} navigate={navigate} />
     </motion.div>
   );
 }

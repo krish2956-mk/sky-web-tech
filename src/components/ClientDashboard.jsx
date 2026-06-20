@@ -24,7 +24,8 @@ import {
   Download,
   FileArchive,
   LogOut,
-  Briefcase
+  Briefcase,
+  Cloud
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -468,17 +469,25 @@ export default function ClientDashboard() {
       />
 
       {/* ── TOP NAVBAR ── */}
-      <header className="relative z-20 shrink-0 px-8 h-16 flex items-center justify-between bg-white/70 backdrop-blur-2xl border-b border-slate-200">
+      <header className="relative z-20 shrink-0 px-4 md:px-8 py-3 md:py-0 md:h-16 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0 bg-white/70 backdrop-blur-2xl border-b border-slate-200">
         
         {/* Left: Logo + Project Switcher + Pill Tabs */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap md:flex-nowrap justify-between md:justify-start items-center gap-3 md:gap-4 w-full md:w-auto">
           {/* Logo */}
-          <div className="flex items-center gap-2.5 pr-4 border-r border-slate-200">
+          <div className="flex items-center gap-3 pr-4 md:pr-6 border-r border-slate-200">
             <div
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow-md shadow-orange-500/20"
+              className="relative w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-[0_4px_15px_rgba(234,88,12,0.4)] overflow-hidden ring-2 ring-orange-50"
               style={{ background: 'linear-gradient(135deg, #ea580c, #f97316)' }}
-            >S</div>
-            <span className="font-semibold text-sm tracking-tight text-slate-900">SkyWebTech</span>
+            >
+              <div className="absolute inset-0 bg-white/25" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 30%, 0 80%)' }} />
+              <Cloud className="relative z-10 w-4 h-4 fill-white/20 stroke-[2.5px]" style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.15))' }} />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-extrabold text-[15px] tracking-tight leading-none text-slate-900">
+                SkyWeb<span className="text-orange-600">Tech</span>
+              </span>
+              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] leading-none mt-1">Client Portal</span>
+            </div>
           </div>
 
           {/* ── Project Switcher Dropdown ── */}
@@ -553,8 +562,8 @@ export default function ClientDashboard() {
             </div>
           )}
 
-          {/* Pill Tab Switcher */}
-          <div className="flex items-center bg-slate-100/50 rounded-xl p-1 border border-slate-200/60 gap-1">
+          {/* Pill Tab Switcher (Desktop) */}
+          <div className="hidden md:flex items-center bg-slate-100/50 rounded-xl p-1 border border-slate-200/60 gap-1">
             {[
               { key: 'progress', label: 'Project Progress', Icon: LayoutDashboard },
               { key: 'files', label: 'Files & Deliverables', Icon: FileText },
@@ -586,7 +595,7 @@ export default function ClientDashboard() {
         </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto mt-1 md:mt-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
           <Link 
             to="/"
             className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 transition-colors text-xs font-medium bg-slate-100/50 hover:bg-slate-200/50 px-3 py-2 rounded-lg border border-slate-200 hover:border-slate-300"
@@ -594,15 +603,7 @@ export default function ClientDashboard() {
             <Home className="w-3.5 h-3.5" /> Home
           </Link>
 
-          <button className="relative w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100/50 border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 transition-all">
-            <Bell className="w-4 h-4" />
-            <span
-              className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
-              style={{ background: '#f97316', boxShadow: '0 0 5px rgba(249,115,22,0.5)' }}
-            />
-          </button>
-
-          <div className="flex items-center gap-2.5 pl-3 border-l border-slate-200">
+          <div className="flex items-center gap-2.5 pl-0 md:pl-3 border-l-0 md:border-l border-slate-200">
             <div
               className="w-7 h-7 rounded-full p-[1.5px] shadow-sm shadow-orange-500/20"
               style={{
@@ -627,7 +628,7 @@ export default function ClientDashboard() {
       </header>
 
       {/* ── PAGE CONTENT ── */}
-      <main className="relative z-10 flex-1 overflow-y-auto">
+      <main className="relative z-10 flex-1 overflow-y-auto pb-20 md:pb-0">
         <AnimatePresence mode="wait">
 
           {/* ── TAB 1: PROJECT PROGRESS ── */}
@@ -638,7 +639,7 @@ export default function ClientDashboard() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.22 }}
-              className="p-8 md:px-10 md:py-8 max-w-[1400px] mx-auto space-y-7"
+              className="p-4 sm:p-6 md:px-10 md:py-8 max-w-[1400px] mx-auto space-y-5 md:space-y-7"
             >
               {/* Page Header — real data from activeProject */}
               {(() => {
@@ -659,7 +660,7 @@ export default function ClientDashboard() {
 
                 return (
                   <>
-                    <div className="flex items-start justify-between">
+                    <div className="flex flex-col md:flex-row items-start justify-between gap-4 md:gap-0">
                       <div>
                         <div className="flex items-center gap-2 text-orange-600 text-xs font-bold mb-2 uppercase tracking-widest">
                           <Sparkles className="w-3.5 h-3.5" /> Active Project
@@ -901,10 +902,10 @@ export default function ClientDashboard() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.22 }}
-              className="p-8 md:px-10 md:py-8 max-w-[1400px] mx-auto space-y-7"
+              className="p-4 sm:p-6 md:px-10 md:py-8 max-w-[1400px] mx-auto space-y-5 md:space-y-7"
             >
               {/* Page Header */}
-              <div className="flex items-start justify-between">
+              <div className="flex flex-col md:flex-row items-start justify-between gap-4 md:gap-0">
                 <div>
                   <div className="flex items-center gap-2 text-orange-600 text-xs font-bold mb-2 uppercase tracking-widest">
                     <FileText className="w-3.5 h-3.5" /> Project Assets
@@ -918,7 +919,7 @@ export default function ClientDashboard() {
               <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden flex flex-col md:flex-row min-h-[600px]">
                 
                 {/* Column 1: Deliverables (From SkyWebTech) */}
-                <div className="flex-1 border-b md:border-b-0 md:border-r border-slate-100 p-8 md:p-10">
+                <div className="flex-1 border-b md:border-b-0 md:border-r border-slate-100 p-5 md:p-10">
                   <h2 className="text-xs font-bold text-slate-400 mb-6 uppercase tracking-widest">Deliverables (From SkyWebTech)</h2>
                   
                   <div className="space-y-3">
@@ -947,7 +948,7 @@ export default function ClientDashboard() {
                 </div>
 
                 {/* Column 2: Client Assets */}
-                <div className="flex-1 p-8 md:p-10 bg-[#FDFBF7]/50">
+                <div className="flex-1 p-5 md:p-10 bg-[#FDFBF7]/50">
                   <h2 className="text-xs font-bold text-slate-400 mb-6 uppercase tracking-widest">Client Assets (Uploaded by You)</h2>
                   
                   {/* Drag & Drop Zone */}
@@ -1032,7 +1033,7 @@ export default function ClientDashboard() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.22 }}
-              className="p-8 md:px-10 md:py-8 max-w-3xl mx-auto"
+              className="p-4 sm:p-6 md:px-10 md:py-8 max-w-3xl mx-auto space-y-5 md:space-y-7"
             >
               <div className="mb-8">
                 <div className="flex items-center gap-2 text-orange-600 text-xs font-bold mb-2 uppercase tracking-widest">
@@ -1043,7 +1044,7 @@ export default function ClientDashboard() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6 relative">
-                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-8">
+                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 md:p-8">
                   <h3 className="text-[10px] font-bold text-slate-400 mb-6 uppercase tracking-widest">Requirement Details</h3>
                   <div className="space-y-5">
                     
@@ -1193,6 +1194,33 @@ export default function ClientDashboard() {
         </AnimatePresence>
       </main>
 
+      {/* ── MOBILE BOTTOM NAV ── */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-lg border-t border-slate-200 px-2 py-2 pb-3 flex items-center justify-around shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        {[
+          { key: 'progress', label: 'Progress', Icon: LayoutDashboard },
+          { key: 'files', label: 'Files', Icon: FileText },
+          { key: 'details', label: 'Details', Icon: FolderPlus },
+        ].map(({ key, label, Icon }) => (
+          <button
+            key={key}
+            onClick={() => setActiveTab(key)}
+            className="relative flex flex-col items-center gap-1.5 p-2 rounded-xl transition-colors flex-1"
+          >
+            {activeTab === key && (
+              <motion.div
+                layoutId="activeMobileTab"
+                className="absolute inset-0 rounded-xl bg-orange-50/80 -z-10"
+                transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+              />
+            )}
+            <Icon className={`w-5 h-5 transition-colors ${activeTab === key ? 'text-orange-600' : 'text-slate-400'}`} />
+            <span className={`text-[10px] transition-colors ${activeTab === key ? 'text-orange-700 font-bold' : 'text-slate-500 font-medium'}`}>
+              {label}
+            </span>
+          </button>
+        ))}
+      </div>
+
       {/* ── SUCCESS TOAST NOTIFICATION ── */}
       <AnimatePresence>
         {showSuccessToast && (
@@ -1200,7 +1228,7 @@ export default function ClientDashboard() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-8 right-8 z-50 flex items-center gap-3 bg-white border border-green-200 shadow-2xl shadow-green-500/20 rounded-xl p-4 pr-6"
+            className="fixed bottom-24 md:bottom-8 right-4 md:right-8 z-50 flex items-center gap-3 bg-white border border-green-200 shadow-2xl shadow-green-500/20 rounded-xl p-4 pr-6"
           >
             <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0 border border-green-200">
               <CheckCircle2 className="w-4 h-4 text-green-600" />
