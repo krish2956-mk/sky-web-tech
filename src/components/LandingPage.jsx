@@ -437,7 +437,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* ── 3D Black Hole / Tech Core — Desktop (right side) ── */}
-                <div className="absolute right-[2%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-[520px] h-[520px] pointer-events-none">
+                <div className="absolute right-[2%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-[520px] h-[520px] pointer-events-none z-10">
                   <div className="bh-scene">
                     {/* Ambient outer glow */}
                     <div className="bh-glow" />
@@ -491,9 +491,9 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* ── 3D Black Hole / Tech Core — Mobile (background behind content) ── */}
-                <div className="lg:hidden absolute inset-0 flex items-center justify-center pointer-events-none" style={{ opacity: 0.15 }}>
-                  <div className="bh-scene" style={{ width: '340px', height: '340px' }}>
+                {/* ── 3D Black Hole / Tech Core — Mobile ── */}
+                <div className="lg:hidden absolute top-[65%] sm:top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none opacity-90 z-0">
+                  <div className="bh-scene" style={{ width: '280px', height: '280px' }}>
                     <div className="bh-glow" />
                     <div className="bh-disk-group">
                       <div className="bh-disk disk-1" />
