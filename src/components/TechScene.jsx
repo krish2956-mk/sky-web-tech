@@ -2,32 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Cloud, Layers, Database, Code2, Shield } from 'lucide-react';
 
-const OrbitRing = ({ radius, duration, reverse, dashed, children }) => {
-  return (
-    <>
-      {/* The visible ring */}
-      <div 
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-[1px] ${dashed ? 'border-dashed border-white/30' : 'border-white/20'}`}
-        style={{ width: radius * 2, height: radius * 2 }}
-      />
-      {/* The rotating container */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2"
-        animate={{ rotate: reverse ? -360 : 360 }}
-        transition={{ duration, repeat: Infinity, ease: 'linear' }}
-      >
-        {React.Children.map(children, (child) => {
-          return React.cloneElement(child, {
-            duration,
-            reverse
-          });
-        })}
-      </motion.div>
-    </>
-  );
-};
-
-const OrbitItem = ({ radius, angle, duration, reverse, children }) => {
+const FlashItem = ({ radius, angle, delay, children }) => {
   const rad = (angle * Math.PI) / 180;
   const x = Math.cos(rad) * radius;
   const y = Math.sin(rad) * radius;
@@ -40,10 +15,9 @@ const OrbitItem = ({ radius, angle, duration, reverse, children }) => {
         transform: `translate(-50%, -50%) translate(${x}px, ${y}px)` 
       }}
     >
-      {/* Counter-rotation to keep elements perfectly upright */}
       <motion.div
-        animate={{ rotate: reverse ? 360 : -360 }}
-        transition={{ duration, repeat: Infinity, ease: 'linear' }}
+        animate={{ opacity: [0, 1, 1, 0], scale: [0.8, 1.1, 1, 0.8], filter: ['blur(4px)', 'blur(0px)', 'blur(0px)', 'blur(4px)'] }}
+        transition={{ duration: 5, delay: delay, repeat: Infinity, ease: 'easeInOut' }}
       >
         {children}
       </motion.div>
@@ -90,57 +64,54 @@ export default function TechScene() {
         </div>
       </div>
 
-      {/* Ring 1 - Inner */}
-      <OrbitRing radius={140} duration={20} reverse={false}>
-        <OrbitItem radius={140} angle={45}>
-           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.4)]">
-             <span className="text-white font-bold text-sm tracking-wider">AS</span>
-           </div>
-        </OrbitItem>
-        <OrbitItem radius={140} angle={225}>
-           <div className="w-12 h-12 rounded-2xl bg-[#111] border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)] flex items-center justify-center">
-             <Cloud className="w-5 h-5 text-gray-400" />
-           </div>
-        </OrbitItem>
-      </OrbitRing>
+      {/* Flashing Elements Around the Core */}
+      <FlashItem radius={180} angle={45} delay={0}>
+         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.6)] border border-cyan-300/50">
+           <span className="text-white font-bold text-sm tracking-wider">AS</span>
+         </div>
+      </FlashItem>
+      
+      <FlashItem radius={160} angle={200} delay={1}>
+         <div className="w-12 h-12 rounded-2xl bg-[#111] border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.2)] flex items-center justify-center">
+           <Cloud className="w-5 h-5 text-gray-300" />
+         </div>
+      </FlashItem>
 
-      {/* Ring 2 - Middle */}
-      <OrbitRing radius={220} duration={35} reverse={true}>
-        <OrbitItem radius={220} angle={120}>
-           <div className="w-14 h-14 rounded-2xl bg-[#0a0a0f] border border-orange-500/30 shadow-[0_0_30px_rgba(249,115,22,0.2)] flex items-center justify-center">
-             <Layers className="w-6 h-6 text-orange-400" />
-           </div>
-        </OrbitItem>
-        <OrbitItem radius={220} angle={300}>
-           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.4)]">
-             <span className="text-white font-bold text-sm tracking-wider">MK</span>
-           </div>
-        </OrbitItem>
-      </OrbitRing>
+      <FlashItem radius={250} angle={120} delay={2.5}>
+         <div className="w-14 h-14 rounded-2xl bg-[#0a0a0f] border border-orange-500/40 shadow-[0_0_40px_rgba(249,115,22,0.4)] flex items-center justify-center">
+           <Layers className="w-6 h-6 text-orange-400" />
+         </div>
+      </FlashItem>
 
-      {/* Ring 3 - Outer */}
-      <OrbitRing radius={320} duration={50} reverse={false} dashed>
-        <OrbitItem radius={320} angle={0}>
-           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center shadow-[0_0_20px_rgba(244,63,94,0.4)]">
-             <span className="text-white font-bold text-sm tracking-wider">JD</span>
-           </div>
-        </OrbitItem>
-        <OrbitItem radius={320} angle={180}>
-           <div className="w-12 h-12 rounded-2xl bg-[#111] border border-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.2)] flex items-center justify-center">
-             <Database className="w-5 h-5 text-blue-400" />
-           </div>
-        </OrbitItem>
-        <OrbitItem radius={320} angle={270}>
-           <div className="w-12 h-12 rounded-2xl bg-[#111] border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.2)] flex items-center justify-center">
-             <Code2 className="w-5 h-5 text-emerald-400" />
-           </div>
-        </OrbitItem>
-        <OrbitItem radius={320} angle={90}>
-           <div className="w-10 h-10 rounded-2xl bg-[#111] border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.2)] flex items-center justify-center">
-             <Shield className="w-4 h-4 text-purple-400" />
-           </div>
-        </OrbitItem>
-      </OrbitRing>
+      <FlashItem radius={240} angle={300} delay={0.5}>
+         <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.6)] border border-orange-300/50">
+           <span className="text-white font-bold text-sm tracking-wider">MK</span>
+         </div>
+      </FlashItem>
+
+      <FlashItem radius={320} angle={20} delay={3}>
+         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center shadow-[0_0_30px_rgba(244,63,94,0.6)] border border-pink-300/50">
+           <span className="text-white font-bold text-sm tracking-wider">JD</span>
+         </div>
+      </FlashItem>
+
+      <FlashItem radius={300} angle={180} delay={1.5}>
+         <div className="w-12 h-12 rounded-2xl bg-[#111] border border-blue-500/40 shadow-[0_0_30px_rgba(59,130,246,0.3)] flex items-center justify-center">
+           <Database className="w-5 h-5 text-blue-400" />
+         </div>
+      </FlashItem>
+
+      <FlashItem radius={310} angle={260} delay={4}>
+         <div className="w-12 h-12 rounded-2xl bg-[#111] border border-emerald-500/40 shadow-[0_0_30px_rgba(16,185,129,0.3)] flex items-center justify-center">
+           <Code2 className="w-5 h-5 text-emerald-400" />
+         </div>
+      </FlashItem>
+
+      <FlashItem radius={280} angle={80} delay={2}>
+         <div className="w-10 h-10 rounded-2xl bg-[#111] border border-purple-500/40 shadow-[0_0_30px_rgba(168,85,247,0.3)] flex items-center justify-center">
+           <Shield className="w-4 h-4 text-purple-400" />
+         </div>
+      </FlashItem>
 
     </div>
   );
