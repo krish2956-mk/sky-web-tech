@@ -59,9 +59,12 @@ export default function TechScene() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Center Core */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-[#0a0a0f] border border-white/5 shadow-[0_0_80px_rgba(249,115,22,0.15)] flex flex-col items-center justify-center z-10">
-        <span className="text-white text-5xl font-bold tracking-tight">200+</span>
-        <span className="text-white/40 text-xs mt-2 uppercase tracking-wider font-semibold">Client Projects</span>
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-orange-500/30 shadow-[0_0_80px_rgba(249,115,22,0.25),inset_0_0_20px_rgba(249,115,22,0.5)] flex flex-col items-center justify-center z-10"
+        style={{ background: 'radial-gradient(circle at center, #000000 30%, #1a0a00 65%, #4a1500 100%)' }}
+      >
+        <span className="text-white text-5xl font-bold tracking-tight drop-shadow-[0_0_15px_rgba(249,115,22,0.5)]">200+</span>
+        <span className="text-orange-200/50 text-xs mt-2 uppercase tracking-wider font-semibold">Client Projects</span>
       </div>
 
       {/* Ring 1 - Inner */}
