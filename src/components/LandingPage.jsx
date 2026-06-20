@@ -436,41 +436,74 @@ export default function LandingPage() {
                   </motion.div>
                 </div>
 
-                {/* Right floating card */}
-                <div className="absolute right-[5%] lg:right-[10%] top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-[380px]">
-                  <motion.div
-                    animate={{ y: [0, -15, 0] }}
-                    transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-                    className="w-full bg-[#121217]/60 backdrop-blur-xl border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] p-8 flex flex-col"
-                  >
-                    <div className="flex items-center gap-3 mb-8 border-b border-white/10 pb-4">
-                      <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/30">
-                        <Layers className="w-5 h-5 text-orange-400" />
-                      </div>
-                      <div>
-                        <h3 className="text-white font-medium text-lg leading-tight">Client Deliverables</h3>
-                        <p className="text-white/50 text-xs tracking-wide uppercase">SkyWebTech Services</p>
-                      </div>
+                {/* ── 3D Black Hole / Tech Core — Desktop (right side) ── */}
+                <div className="absolute right-[2%] lg:right-[8%] top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-[520px] h-[520px] pointer-events-none">
+                  <div className="bh-scene">
+                    {/* Ambient outer glow */}
+                    <div className="bh-glow" />
+                    
+                    {/* Accretion Disk (Horizontal rings) */}
+                    <div className="bh-disk-group">
+                      <div className="bh-disk disk-1" />
+                      <div className="bh-disk disk-2" />
+                      <div className="bh-disk disk-3" />
+                      
+                      {/* Data particles orbiting in the disk */}
+                      <div className="data-particle dp-1" />
+                      <div className="data-particle dp-2" />
+                      <div className="data-particle dp-3" />
                     </div>
-                    <div className="flex flex-col gap-6">
-                      {[
-                        { Icon: MousePointer2, title: 'Custom UI/UX Design', desc: 'Pixel-perfect designs tailored to your brand.' },
-                        { Icon: Cpu, title: 'Full-Stack Development', desc: 'Scalable apps on modern architectures.' },
-                        { Icon: Cloud, title: 'Seamless Deployment', desc: 'Zero-downtime cloud launches.' },
-                        { Icon: Shield, title: '24/7 Dedicated Support', desc: 'Priority technical assistance.' },
-                      ].map(({ Icon, title, desc }) => (
-                        <div key={title} className="flex items-start gap-4">
-                          <div className="mt-0.5 w-6 h-6 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/30 shrink-0">
-                            <Icon className="w-3 h-3 text-orange-400" />
-                          </div>
-                          <div>
-                            <h4 className="text-white text-sm font-medium">{title}</h4>
-                            <p className="text-white/50 text-xs mt-0.5 leading-relaxed">{desc}</p>
-                          </div>
-                        </div>
-                      ))}
+
+                    {/* The Event Horizon (Dark Core + Photon Ring) */}
+                    <div className="bh-core">
+                      <div className="bh-photon-ring" />
+                      <div className="bh-event-horizon" />
                     </div>
-                  </motion.div>
+
+                    {/* Vertical Energy Jet (Optional but adds to the tech feel) */}
+                    <div className="bh-jet" />
+
+                    {/* Floating service labels synced to the tech theme */}
+                    <motion.div
+                      animate={{ y: [0, -8, 0], opacity: [0.8, 1, 0.8] }}
+                      transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                      className="absolute top-[12%] right-[5%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
+                    >
+                      <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">UI/UX Design</p>
+                      <p className="text-white/60 text-[10px]">Pixel-perfect</p>
+                    </motion.div>
+                    <motion.div
+                      animate={{ y: [0, 10, 0], opacity: [0.7, 1, 0.7] }}
+                      transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut', delay: 1 }}
+                      className="absolute bottom-[18%] left-[0%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
+                    >
+                      <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Full-Stack Dev</p>
+                      <p className="text-white/60 text-[10px]">Modern architecture</p>
+                    </motion.div>
+                    <motion.div
+                      animate={{ y: [0, -6, 0], opacity: [0.75, 1, 0.75] }}
+                      transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut', delay: 2 }}
+                      className="absolute bottom-[8%] right-[8%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
+                    >
+                      <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Cloud Deploy</p>
+                      <p className="text-white/60 text-[10px]">Zero downtime</p>
+                    </motion.div>
+                  </div>
+                </div>
+
+                {/* ── 3D Black Hole / Tech Core — Mobile (background behind content) ── */}
+                <div className="lg:hidden absolute inset-0 flex items-center justify-center pointer-events-none" style={{ opacity: 0.15 }}>
+                  <div className="bh-scene" style={{ width: '340px', height: '340px' }}>
+                    <div className="bh-glow" />
+                    <div className="bh-disk-group">
+                      <div className="bh-disk disk-1" />
+                      <div className="bh-disk disk-2" />
+                    </div>
+                    <div className="bh-core">
+                      <div className="bh-photon-ring" />
+                      <div className="bh-event-horizon" />
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
