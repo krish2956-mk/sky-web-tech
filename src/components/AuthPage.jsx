@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Mail, Lock, User, ArrowLeft } from 'lucide-react';
+import { API_URL } from '../config.js';
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -21,7 +22,7 @@ export default function AuthPage() {
         ? { email: formData.email, password: formData.password }
         : { name: `${formData.firstName} ${formData.lastName}`.trim(), email: formData.email, password: formData.password };
 
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

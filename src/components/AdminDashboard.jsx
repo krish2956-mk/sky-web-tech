@@ -7,6 +7,7 @@ import {
   MessageSquare, FolderOpen, LogOut, Briefcase, Star, Trash2, Bell, Plus, UploadCloud, Loader2
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
+import { API_URL } from '../config.js';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -42,9 +43,9 @@ export default function AdminDashboard() {
       try {
         const token = localStorage.getItem('token');
         const [projRes, clientRes, reqRes] = await Promise.all([
-          fetch('http://localhost:5000/api/projects', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/auth/clients', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/requests', { headers: { 'Authorization': `Bearer ${token}` } })
+          fetch(`${API_URL}/api/projects`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${API_URL}/api/auth/clients`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${API_URL}/api/requests`, { headers: { 'Authorization': `Bearer ${token}` } })
         ]);
         
         if (projRes.ok) {
@@ -80,7 +81,7 @@ export default function AdminDashboard() {
   const refreshClients = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/auth/clients', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`${API_URL}/api/auth/clients`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) {
         setClients(await res.json());
       }
@@ -114,7 +115,7 @@ export default function AdminDashboard() {
   const fetchMilestones = async (projectId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/milestones/project/${projectId}`, {
+      const res = await fetch(`${API_URL}/api/milestones/project/${projectId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -128,7 +129,7 @@ export default function AdminDashboard() {
   const fetchProjectFiles = async (projectId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/files/project/${projectId}`, {
+      const res = await fetch(`${API_URL}/api/files/project/${projectId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -194,7 +195,7 @@ export default function AdminDashboard() {
     
     try {
       const token = localStorage.getItem('token');
-      await fetch(`http://localhost:5000/api/milestones/${milestoneId}`, {
+      await fetch(`${API_URL}/api/milestones/${milestoneId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload)
@@ -210,7 +211,7 @@ export default function AdminDashboard() {
     
     try {
       const token = localStorage.getItem('token');
-      await fetch(`http://localhost:5000/api/milestones/${milestoneId}`, {
+      await fetch(`${API_URL}/api/milestones/${milestoneId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -224,7 +225,7 @@ export default function AdminDashboard() {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/milestones/project/${activeProject.id}`, {
+      const res = await fetch(`${API_URL}/api/milestones/project/${activeProject.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ title: 'New Milestone', status: 'Pending', completion_percentage: 0 })
@@ -259,14 +260,14 @@ export default function AdminDashboard() {
     setIsSavingProject(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/projects/${activeProject.id}`, {
+      const res = await fetch(`${API_URL}/api/projects/${activeProject.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(projectEditData)
       });
       if (res.ok) {
         // Refresh projects list
-        const projRes = await fetch('http://localhost:5000/api/projects', { headers: { 'Authorization': `Bearer ${token}` } });
+        const projRes = await fetch(`${API_URL}/api/projects`, { headers: { 'Authorization': `Bearer ${token}` } });
         if (projRes.ok) {
           const data = await projRes.json();
           setProjects(data.map(p => ({ ...p, client: p.client_name || 'Unassigned' })));
@@ -290,7 +291,7 @@ export default function AdminDashboard() {
     const fetchMessages = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/messages/project/${selectedProjectId}`, {
+        const res = await fetch(`${API_URL}/api/messages/project/${selectedProjectId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -315,7 +316,7 @@ export default function AdminDashboard() {
     fetchMessages();
     fetchMilestones(selectedProjectId);
 
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(API_URL);
     setSocket(newSocket);
     
     newSocket.emit('join_project_room', selectedProjectId);
@@ -376,7 +377,7 @@ export default function AdminDashboard() {
         payload.attachment_name = attachmentData.name;
       }
 
-      await fetch(`http://localhost:5000/api/messages/project/${selectedProjectId}`, {
+      await fetch(`${API_URL}/api/messages/project/${selectedProjectId}`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -401,7 +402,7 @@ export default function AdminDashboard() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadRes = await fetch(`http://localhost:5000/api/files/project/${selectedProjectId}`, {
+      const uploadRes = await fetch(`${API_URL}/api/files/project/${selectedProjectId}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -448,7 +449,7 @@ export default function AdminDashboard() {
       const formData = new FormData();
       formData.append('file', pendingAdminUpload);
 
-      const res = await fetch(`http://localhost:5000/api/files/project/${selectedProjectId}`, {
+      const res = await fetch(`${API_URL}/api/files/project/${selectedProjectId}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -496,7 +497,7 @@ export default function AdminDashboard() {
         // If "new" client mode, we would ideally create them here. For now, assume "existing" mode or handle appropriately.
         // If they pick a client from dropdown, finalClientId is their ID.
         
-        const createProjRes = await fetch('http://localhost:5000/api/projects', {
+        const createProjRes = await fetch(`${API_URL}/api/projects`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({
@@ -513,7 +514,7 @@ export default function AdminDashboard() {
            
            // If we have a requestId, approve it
            if (wizardData.requestId) {
-             await fetch(`http://localhost:5000/api/requests/${wizardData.requestId}/approve`, {
+             await fetch(`${API_URL}/api/requests/${wizardData.requestId}/approve`, {
                method: 'PUT',
                headers: { 'Authorization': `Bearer ${token}` }
              });
@@ -524,7 +525,7 @@ export default function AdminDashboard() {
            // Create milestones
            for (const m of wizardData.milestones) {
              if (m.title.trim()) {
-               await fetch(`http://localhost:5000/api/milestones/project/${newProject.projectId}`, {
+               await fetch(`${API_URL}/api/milestones/project/${newProject.projectId}`, {
                  method: 'POST',
                  headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                  body: JSON.stringify({ title: m.title, status: 'Pending', completion_percentage: 0 })
@@ -534,7 +535,7 @@ export default function AdminDashboard() {
         }
 
         // Refetch projects to update UI
-        const projRes = await fetch('http://localhost:5000/api/projects', { headers: { 'Authorization': `Bearer ${token}` } });
+        const projRes = await fetch(`${API_URL}/api/projects`, { headers: { 'Authorization': `Bearer ${token}` } });
         if (projRes.ok) {
           const data = await projRes.json();
           const mapped = data.map(p => ({ ...p, client: p.client_name || 'Unassigned' }));
@@ -1022,7 +1023,7 @@ export default function AdminDashboard() {
                               <div className={`rounded-2xl px-4 py-2.5 text-sm font-medium leading-relaxed max-w-[220px] ${msg.isOwn ? 'rounded-tr-none text-white' : 'rounded-tl-none bg-white border border-slate-200 text-slate-700'}`} style={msg.isOwn ? { background: 'linear-gradient(135deg, #ea580c, #f97316)' } : {}}>
                                 {msg.text}
                                 {msg.attachment_url && (
-                                  <a href={`http://localhost:5000${msg.attachment_url}`} target="_blank" rel="noreferrer" className={`mt-2 flex items-center gap-2 p-2 rounded-lg text-xs font-bold transition-colors ${msg.isOwn ? 'bg-orange-500/50 hover:bg-orange-500 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'}`}>
+                                  <a href={`${API_URL}${msg.attachment_url}`} target="_blank" rel="noreferrer" className={`mt-2 flex items-center gap-2 p-2 rounded-lg text-xs font-bold transition-colors ${msg.isOwn ? 'bg-orange-500/50 hover:bg-orange-500 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'}`}>
                                     <FileText className="w-4 h-4 shrink-0" />
                                     <span className="truncate">{msg.attachment_name}</span>
                                     <Download className="w-3 h-3 shrink-0 ml-auto opacity-70" />
@@ -1145,7 +1146,7 @@ export default function AdminDashboard() {
                             <FileText className="w-5 h-5 text-orange-500" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <a href={`http://localhost:5000${f.url}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-slate-900 truncate hover:text-orange-500 transition-colors block">{f.name}</a>
+                            <a href={`${API_URL}${f.url}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-slate-900 truncate hover:text-orange-500 transition-colors block">{f.name}</a>
                             <div className="flex items-center gap-2 mt-0.5 text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                               <span>{f.date}</span> • <span>{f.size}</span>
                             </div>
@@ -1177,7 +1178,7 @@ export default function AdminDashboard() {
                                 <span>{f.date}</span> • <span>{f.size}</span>
                               </div>
                             </div>
-                            <a href={`http://localhost:5000${f.url}`} target="_blank" rel="noreferrer" className="p-2 bg-white border border-slate-200 shadow-sm rounded-lg text-slate-600 hover:text-orange-500 transition-colors flex items-center justify-center"><Download className="w-4 h-4" /></a>
+                            <a href={`${API_URL}${f.url}`} target="_blank" rel="noreferrer" className="p-2 bg-white border border-slate-200 shadow-sm rounded-lg text-slate-600 hover:text-orange-500 transition-colors flex items-center justify-center"><Download className="w-4 h-4" /></a>
                           </div>
                         ))
                       )}
@@ -1234,7 +1235,7 @@ export default function AdminDashboard() {
                                             <p className="text-xs text-slate-500 mt-0.5">{att.description}</p>
                                           )}
                                           <a
-                                            href={`http://localhost:5000${att.file_path}`}
+                                            href={`${API_URL}${att.file_path}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center gap-1 text-xs text-orange-600 font-bold mt-1 hover:text-orange-700"

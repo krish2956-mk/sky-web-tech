@@ -28,6 +28,7 @@ import {
   Cloud
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../config.js';
 
 // ─── Color tokens ───────────────────────────────────────────────
 // accent: orange  →  #ea580c (dark) / #f97316 (mid) / #fb923c (light)
@@ -86,7 +87,7 @@ export default function ClientDashboard() {
   const fetchProjectFiles = async (projectId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/files/project/${projectId}`, {
+      const res = await fetch(`${API_URL}/api/files/project/${projectId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -127,7 +128,7 @@ export default function ClientDashboard() {
       const formData = new FormData();
       formData.append('file', pendingUploadFile);
 
-      const res = await fetch(`http://localhost:5000/api/files/project/${activeProject.id}`, {
+      const res = await fetch(`${API_URL}/api/files/project/${activeProject.id}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -177,7 +178,7 @@ export default function ClientDashboard() {
     const fetchProjects = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/projects', {
+        const res = await fetch(`${API_URL}/api/projects`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -201,7 +202,7 @@ export default function ClientDashboard() {
   const fetchMilestones = async (projectId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/milestones/project/${projectId}`, {
+      const res = await fetch(`${API_URL}/api/milestones/project/${projectId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -222,7 +223,7 @@ export default function ClientDashboard() {
     // Fetch messages history
     const fetchMessages = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/messages/project/${activeProject.id}`, {
+        const res = await fetch(`${API_URL}/api/messages/project/${activeProject.id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -251,7 +252,7 @@ export default function ClientDashboard() {
     fetchProjectFiles(activeProject.id);
 
     // Set up socket
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(API_URL);
     setSocket(newSocket);
 
     // Join project room for chat
@@ -295,7 +296,7 @@ export default function ClientDashboard() {
 
     // Listen for project approval notification
     newSocket.on('request_approved', () => {
-      fetch('http://localhost:5000/api/projects', {
+      fetch(`${API_URL}/api/projects`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(res => res.json())
@@ -324,7 +325,7 @@ export default function ClientDashboard() {
         payload.attachment_name = attachmentData.name;
       }
 
-      await fetch(`http://localhost:5000/api/messages/project/${activeProject.id}`, {
+      await fetch(`${API_URL}/api/messages/project/${activeProject.id}`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -349,7 +350,7 @@ export default function ClientDashboard() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadRes = await fetch(`http://localhost:5000/api/files/project/${activeProject.id}`, {
+      const uploadRes = await fetch(`${API_URL}/api/files/project/${activeProject.id}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -425,7 +426,7 @@ export default function ClientDashboard() {
       files.forEach(f => fd.append('files', f.file));
       fd.append('attachmentsMeta', JSON.stringify(metaArray));
 
-      const res = await fetch('http://localhost:5000/api/requests', {
+      const res = await fetch(`${API_URL}/api/requests`, {
         method: 'POST',
         headers: { 
           // NOTE: Do NOT set Content-Type here; browser sets it with boundary for multipart
@@ -853,7 +854,7 @@ export default function ClientDashboard() {
                           <div className={`rounded-2xl px-4 py-2.5 text-sm font-medium leading-relaxed max-w-[220px] ${msg.isOwn ? 'rounded-tr-none text-white' : 'rounded-tl-none bg-white border border-slate-200 text-slate-700'}`} style={msg.isOwn ? { background: 'linear-gradient(135deg, #ea580c, #f97316)' } : {}}>
                             {msg.text}
                             {msg.attachment_url && (
-                              <a href={`http://localhost:5000${msg.attachment_url}`} target="_blank" rel="noreferrer" className={`mt-2 flex items-center gap-2 p-2 rounded-lg text-xs font-bold transition-colors ${msg.isOwn ? 'bg-orange-500/50 hover:bg-orange-500 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'}`}>
+                              <a href={`${API_URL}${msg.attachment_url}`} target="_blank" rel="noreferrer" className={`mt-2 flex items-center gap-2 p-2 rounded-lg text-xs font-bold transition-colors ${msg.isOwn ? 'bg-orange-500/50 hover:bg-orange-500 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'}`}>
                                 <FileText className="w-4 h-4 shrink-0" />
                                 <span className="truncate">{msg.attachment_name}</span>
                                 <Download className="w-3 h-3 shrink-0 ml-auto opacity-70" />
@@ -939,7 +940,7 @@ export default function ClientDashboard() {
                              </div>
                            </div>
                         </div>
-                        <a href={`http://localhost:5000${f.url}`} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-orange-600 hover:bg-orange-100 transition-colors shrink-0">
+                        <a href={`${API_URL}${f.url}`} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-orange-600 hover:bg-orange-100 transition-colors shrink-0">
                           <Download className="w-4 h-4" />
                         </a>
                       </div>
@@ -1008,7 +1009,7 @@ export default function ClientDashboard() {
                              {f.type === 'zip' ? <FileArchive className="w-5 h-5 text-slate-500 group-hover:text-orange-500 transition-colors" /> : <FileText className="w-5 h-5 text-slate-500 group-hover:text-orange-500 transition-colors" />}
                            </div>
                            <div className="min-w-0">
-                             <a href={`http://localhost:5000${f.url}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-slate-900 truncate hover:text-orange-500 transition-colors block">{f.name}</a>
+                             <a href={`${API_URL}${f.url}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-slate-900 truncate hover:text-orange-500 transition-colors block">{f.name}</a>
                              <div className="flex items-center gap-3 mt-0.5">
                                <p className="text-[11px] font-medium text-slate-500">{f.date}</p>
                                <span className="w-1 h-1 rounded-full bg-slate-300"></span>
