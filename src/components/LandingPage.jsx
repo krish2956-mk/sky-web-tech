@@ -429,35 +429,58 @@ export default function LandingPage() {
                     </motion.button>
                   </motion.div>
 
-                  {/* ── 3D Isometric Glass Cards — Desktop Only ── */}
-                  <div className="hidden lg:flex w-full lg:w-1/2 items-center justify-center lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[500px] pointer-events-none z-10">
-                    <div className="iso-scene">
-                      <div className="iso-stack">
-                        {/* Layer 3 - Cloud */}
-                        <div className="iso-card layer-3">
-                          <div className="iso-content">
-                            <Cloud className="w-8 h-8 text-blue-400 mb-2" />
-                            <h3 className="text-white font-bold text-sm">Cloud Scale</h3>
-                            <p className="text-white/50 text-[10px]">Zero-downtime</p>
-                          </div>
-                        </div>
-                        {/* Layer 2 - Dev */}
-                        <div className="iso-card layer-2">
-                          <div className="iso-content">
-                            <Cpu className="w-8 h-8 text-emerald-400 mb-2" />
-                            <h3 className="text-white font-bold text-sm">Architecture</h3>
-                            <p className="text-white/50 text-[10px]">Scalable backend</p>
-                          </div>
-                        </div>
-                        {/* Layer 1 - UI/UX (Top) */}
-                        <div className="iso-card layer-1">
-                          <div className="iso-content">
-                            <MousePointer2 className="w-8 h-8 text-orange-400 mb-2" />
-                            <h3 className="text-white font-bold text-sm">UI/UX Design</h3>
-                            <p className="text-white/50 text-[10px]">Pixel-perfect</p>
-                          </div>
-                        </div>
+                  {/* ── 3D Black Hole / Tech Core — Desktop Only ── */}
+                  <div className="hidden lg:flex w-full lg:w-1/2 items-center justify-center lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[520px] pointer-events-none z-10">
+                    <div className="bh-scene">
+                      {/* Ambient outer glow */}
+                      <div className="bh-glow" />
+                      
+                      {/* Accretion Disk (Horizontal rings) */}
+                      <div className="bh-disk-group">
+                        <div className="bh-disk disk-1" />
+                        <div className="bh-disk disk-2" />
+                        <div className="bh-disk disk-3" />
+                        
+                        {/* Data particles orbiting in the disk */}
+                        <div className="data-particle dp-1" />
+                        <div className="data-particle dp-2" />
+                        <div className="data-particle dp-3" />
                       </div>
+
+                      {/* The Event Horizon (Dark Core + Photon Ring) */}
+                      <div className="bh-core">
+                        <div className="bh-photon-ring" />
+                        <div className="bh-event-horizon" />
+                      </div>
+
+                      {/* Vertical Energy Jet (Optional but adds to the tech feel) */}
+                      <div className="bh-jet" />
+
+                      {/* Floating service labels synced to the tech theme */}
+                      <motion.div
+                        animate={{ y: [0, -8, 0], opacity: [0.8, 1, 0.8] }}
+                        transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                        className="absolute top-[12%] right-[5%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
+                      >
+                        <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">UI/UX Design</p>
+                        <p className="text-white/60 text-[10px]">Pixel-perfect</p>
+                      </motion.div>
+                      <motion.div
+                        animate={{ y: [0, 10, 0], opacity: [0.7, 1, 0.7] }}
+                        transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut', delay: 1 }}
+                        className="absolute bottom-[18%] left-[0%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
+                      >
+                        <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Full-Stack Dev</p>
+                        <p className="text-white/60 text-[10px]">Modern architecture</p>
+                      </motion.div>
+                      <motion.div
+                        animate={{ y: [0, -6, 0], opacity: [0.75, 1, 0.75] }}
+                        transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut', delay: 2 }}
+                        className="absolute bottom-[8%] right-[8%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
+                      >
+                        <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Cloud Deploy</p>
+                        <p className="text-white/60 text-[10px]">Zero downtime</p>
+                      </motion.div>
                     </div>
                   </div>
 
