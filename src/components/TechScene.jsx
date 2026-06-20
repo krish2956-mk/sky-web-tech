@@ -61,33 +61,32 @@ export default function TechScene() {
       {/* ── INTERSTELLAR BLACK HOLE CORE ── */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 flex items-center justify-center z-10">
         
-        {/* Intense background glow */}
-        <div className="absolute w-64 h-64 bg-orange-600/30 rounded-full blur-[50px] z-0 pointer-events-none" />
+        {/* Background glow */}
+        <div className="absolute w-72 h-72 bg-orange-600/20 rounded-full blur-[50px] z-0 pointer-events-none" />
 
-        {/* Top Halo (Bent Light from behind) */}
-        <div className="absolute w-44 h-44 rounded-full border-[8px] border-transparent border-t-orange-300 border-r-orange-500/40 border-l-orange-500/40 opacity-90 z-0 shadow-[0_-10px_40px_rgba(251,146,60,0.8)] blur-[2px] pointer-events-none" style={{ transform: 'scaleY(1.15) translateY(-5px)' }} />
+        {/* Accretion Disk (BACK HALF) */}
+        <div className="absolute w-[450px] h-[130px] rounded-[50%] border-[2px] border-orange-500/50 z-0 shadow-[0_0_30px_rgba(249,115,22,0.4)] pointer-events-none" 
+             style={{ clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0 50%)' }} />
 
-        {/* Bottom Halo (Bent Light from behind) */}
-        <div className="absolute w-44 h-44 rounded-full border-[6px] border-transparent border-b-orange-500 border-r-orange-500/30 border-l-orange-500/30 opacity-70 z-0 shadow-[0_10px_30px_rgba(234,88,12,0.6)] blur-[2px] pointer-events-none" style={{ transform: 'scaleY(1.15) translateY(5px)' }} />
+        {/* The Black Core */}
+        <div className="absolute w-44 h-44 rounded-full bg-[#030100] z-10 shadow-[0_0_50px_rgba(249,115,22,0.3),inset_0_0_20px_rgba(0,0,0,1)] border border-orange-500/20" />
 
-        {/* Event Horizon (Pure Black Circle) */}
-        <div className="absolute w-40 h-40 rounded-full bg-[#000000] z-10 shadow-[0_0_20px_rgba(251,146,60,0.5)]" />
-
-        {/* Accretion Disk (Front glowing sweep) */}
-        {/* We use a wide, squashed ellipse with only the bottom border visible to simulate the front of the ring */}
-        <div className="absolute w-[420px] h-[120px] rounded-[50%] border-[4px] border-transparent border-b-white/90 z-20 shadow-[0_10px_30px_rgba(251,146,60,1),0_20px_60px_rgba(234,88,12,0.8)] blur-[1px] pointer-events-none" style={{ transform: 'translateY(-30px)' }} />
+        {/* Accretion Disk (FRONT HALF) */}
+        <div className="absolute w-[450px] h-[130px] rounded-[50%] border-[3px] border-orange-300 z-20 shadow-[0_0_40px_rgba(249,115,22,0.8),inset_0_0_20px_rgba(249,115,22,0.5)] pointer-events-none blur-[0.5px]" 
+             style={{ clipPath: 'polygon(0 50%, 100% 50%, 100% 100%, 0 100%)' }} />
         
-        {/* Inner intense disk glow (the hottest part) */}
-        <div className="absolute w-[400px] h-[80px] rounded-[50%] border-[6px] border-transparent border-b-orange-400 z-20 blur-[3px] pointer-events-none" style={{ transform: 'translateY(-20px)' }} />
+        {/* Bright inner core for front half */}
+        <div className="absolute w-[450px] h-[130px] rounded-[50%] border-[4px] border-white z-20 shadow-[0_0_20px_rgba(255,255,255,0.8)] pointer-events-none blur-[1px]" 
+             style={{ clipPath: 'polygon(0 50%, 100% 50%, 100% 100%, 0 100%)', transform: 'scale(0.98)' }} />
 
-        {/* The horizontal piercing light (Doppler beaming effect on the sides) */}
-        <div className="absolute w-[440px] h-[4px] bg-gradient-to-r from-transparent via-orange-300 to-transparent z-20 blur-[2px] pointer-events-none" style={{ transform: 'translateY(15px)' }} />
-        <div className="absolute w-[350px] h-[2px] bg-gradient-to-r from-transparent via-white to-transparent z-20 blur-[1px] pointer-events-none" style={{ transform: 'translateY(15px)' }} />
+        {/* Horizontal flares (Doppler effect) */}
+        <div className="absolute w-[500px] h-[2px] bg-gradient-to-r from-transparent via-orange-400/80 to-transparent z-20 blur-[2px] pointer-events-none" />
+        <div className="absolute w-[350px] h-[1px] bg-gradient-to-r from-transparent via-white to-transparent z-20 pointer-events-none" />
 
         {/* Text over Black Hole */}
-        <div className="absolute z-30 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-white text-5xl font-bold tracking-tight" style={{ textShadow: '0 4px 20px rgba(0,0,0,1), 0 0 30px rgba(251,146,60,0.8)' }}>200+</span>
-          <span className="text-orange-100/90 text-[10px] mt-1 uppercase tracking-widest font-bold" style={{ textShadow: '0 2px 10px rgba(0,0,0,1)' }}>Client Projects</span>
+        <div className="absolute z-30 flex flex-col items-center justify-center pointer-events-none" style={{ transform: 'translateY(-5px)' }}>
+          <span className="text-white text-5xl font-bold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">200+</span>
+          <span className="text-white/80 text-[10px] mt-1 uppercase tracking-widest font-bold drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">Client Projects</span>
         </div>
       </div>
 
