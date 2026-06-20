@@ -421,11 +421,11 @@ export default function LandingPage() {
                       onClick={() => routerNavigate(isLoggedIn ? dashboardPath : '/auth')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="group relative px-8 py-4 bg-white text-black rounded-full font-semibold text-lg overflow-hidden flex items-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
+                      className="group relative px-6 py-3 bg-[#0a0a0f] text-white border border-white/10 rounded-full font-medium text-sm overflow-hidden flex items-center gap-2 shadow-lg transition-all hover:border-orange-500/50 w-fit"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                       <span className="relative z-10">Start Project</span>
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+                      <ChevronRight className="w-4 h-4 text-white/70 group-hover:translate-x-1 transition-transform relative z-10" />
                     </motion.button>
                   </motion.div>
 
@@ -484,43 +484,32 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  {/* ── Mobile Flat Feature Cards ── */}
-                  <div className="lg:hidden w-full mt-16 flex flex-col gap-4 z-20 pb-24">
-                    <div className="bg-[#121217]/80 backdrop-blur-md border-t-[3px] border-t-orange-500 border-x border-b border-white/5 rounded-2xl p-6 flex flex-col gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02]">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
-                          <MousePointer2 className="w-5 h-5 text-orange-400" />
-                        </div>
-                        <h3 className="text-white font-bold text-lg tracking-tight">UI/UX Design</h3>
-                      </div>
-                      <p className="text-white/50 text-sm leading-relaxed ml-14">
-                        Pixel-perfect, user-centric interfaces crafted to engage and convert your audience.
-                      </p>
-                    </div>
-
-                    <div className="bg-[#121217]/80 backdrop-blur-md border-t-[3px] border-t-emerald-500 border-x border-b border-white/5 rounded-2xl p-6 flex flex-col gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02]">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                          <Cpu className="w-5 h-5 text-emerald-400" />
-                        </div>
-                        <h3 className="text-white font-bold text-lg tracking-tight">Scalable Architecture</h3>
-                      </div>
-                      <p className="text-white/50 text-sm leading-relaxed ml-14">
-                        Robust backend solutions built to handle millions of requests without breaking a sweat.
-                      </p>
-                    </div>
-
-                    <div className="bg-[#121217]/80 backdrop-blur-md border-t-[3px] border-t-blue-500 border-x border-b border-white/5 rounded-2xl p-6 flex flex-col gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02]">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                          <Cloud className="w-5 h-5 text-blue-400" />
-                        </div>
-                        <h3 className="text-white font-bold text-lg tracking-tight">Cloud Deployment</h3>
-                      </div>
-                      <p className="text-white/50 text-sm leading-relaxed ml-14">
-                        Zero-downtime, continuous deployment pipelines using modern cloud infrastructure.
-                      </p>
-                    </div>
+                  {/* ── Mobile Orange Bubbles Animation ── */}
+                  <div className="lg:hidden absolute inset-0 pointer-events-none overflow-hidden z-0">
+                    {[...Array(8)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        animate={{
+                          y: ['100vh', '-20vh'],
+                          x: [Math.random() * 40 - 20, Math.random() * 40 - 20],
+                          opacity: [0, 0.4, 0],
+                          scale: [0.5, 1.5, 0.8]
+                        }}
+                        transition={{
+                          duration: Math.random() * 4 + 5,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: Math.random() * 3
+                        }}
+                        className="absolute bottom-0 rounded-full blur-2xl"
+                        style={{
+                          left: `${10 + i * 10}%`,
+                          width: `${Math.random() * 80 + 40}px`,
+                          height: `${Math.random() * 80 + 40}px`,
+                          background: 'radial-gradient(circle, rgba(249,115,22,0.8) 0%, rgba(234,88,12,0.2) 70%, transparent 100%)',
+                        }}
+                      />
+                    ))}
                   </div>
                 </div>
               </motion.div>
