@@ -447,40 +447,86 @@ export default function LandingPage() {
                         <div className="data-particle dp-3" />
                       </div>
 
-                      {/* The Event Horizon (Dark Core + Photon Ring) */}
+                        {/* ── Solar System Orbits ── */}
+                        
+                        {/* Orbit 1: Inner (16s cycle, offset by 8s) */}
+                        <div className="orbit-track orbit-1" style={{ animationDelay: '0s' }}>
+                          <div className="planet planet-1">
+                            <div className="counter-1" style={{ animationDelay: '0s' }}>
+                              <div className="service-planet pointer-events-auto">
+                                <span className="title">UI/UX Design</span>
+                                <span className="desc">Pixel-perfect</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="orbit-track orbit-1" style={{ animationDelay: '-8s' }}>
+                          <div className="planet planet-1">
+                            <div className="counter-1" style={{ animationDelay: '-8s' }}>
+                              <div className="service-planet pointer-events-auto">
+                                <span className="title">Web Dev</span>
+                                <span className="desc">Scalable backend</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Orbit 2: Middle (24s cycle, offset by 12s) */}
+                        <div className="orbit-track orbit-2" style={{ animationDelay: '0s' }}>
+                          <div className="planet planet-2">
+                            <div className="counter-2" style={{ animationDelay: '0s' }}>
+                              <div className="service-planet pointer-events-auto">
+                                <span className="title">App Dev</span>
+                                <span className="desc">iOS & Android</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="orbit-track orbit-2" style={{ animationDelay: '-12s' }}>
+                          <div className="planet planet-2">
+                            <div className="counter-2" style={{ animationDelay: '-12s' }}>
+                              <div className="service-planet pointer-events-auto">
+                                <span className="title">Cloud Deploy</span>
+                                <span className="desc">Zero downtime</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Orbit 3: Outer (36s cycle, offset by 18s) */}
+                        <div className="orbit-track orbit-3" style={{ animationDelay: '0s' }}>
+                          <div className="planet planet-3">
+                            <div className="counter-3" style={{ animationDelay: '0s' }}>
+                              <div className="service-planet pointer-events-auto">
+                                <span className="title">E-Commerce</span>
+                                <span className="desc">Shopify & Custom</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="orbit-track orbit-3" style={{ animationDelay: '-18s' }}>
+                          <div className="planet planet-3">
+                            <div className="counter-3" style={{ animationDelay: '-18s' }}>
+                              <div className="service-planet pointer-events-auto">
+                                <span className="title">Dedicated Team</span>
+                                <span className="desc">Staff Augmentation</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* The Event Horizon (Replaced with Solar Core text) */}
                       <div className="bh-core">
-                        <div className="bh-photon-ring" />
-                        <div className="bh-event-horizon" />
+                        <div className="bh-solar-core">
+                          <h2 className="bh-solar-text">
+                            SkyWeb<br/><span>Tech</span>
+                          </h2>
+                        </div>
                       </div>
 
                       {/* Vertical Energy Jet (Optional but adds to the tech feel) */}
                       <div className="bh-jet" />
-
-                      {/* Floating service labels synced to the tech theme */}
-                      <motion.div
-                        animate={{ y: [0, -8, 0], opacity: [0.8, 1, 0.8] }}
-                        transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                        className="absolute top-[12%] right-[5%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
-                      >
-                        <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">UI/UX Design</p>
-                        <p className="text-white/60 text-[10px]">Pixel-perfect</p>
-                      </motion.div>
-                      <motion.div
-                        animate={{ y: [0, 10, 0], opacity: [0.7, 1, 0.7] }}
-                        transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut', delay: 1 }}
-                        className="absolute bottom-[18%] left-[0%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
-                      >
-                        <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Full-Stack Dev</p>
-                        <p className="text-white/60 text-[10px]">Modern architecture</p>
-                      </motion.div>
-                      <motion.div
-                        animate={{ y: [0, -6, 0], opacity: [0.75, 1, 0.75] }}
-                        transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut', delay: 2 }}
-                        className="absolute bottom-[8%] right-[8%] bg-[#0a0a0f]/80 backdrop-blur-md border border-orange-500/30 rounded-xl px-4 py-2 shadow-[0_0_20px_rgba(234,88,12,0.2)]"
-                      >
-                        <p className="text-orange-400 text-xs font-bold tracking-wider uppercase">Cloud Deploy</p>
-                        <p className="text-white/60 text-[10px]">Zero downtime</p>
-                      </motion.div>
                     </div>
                   </div>
 

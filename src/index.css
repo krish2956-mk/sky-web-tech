@@ -141,7 +141,7 @@
 .dp-2 { --radius: 180px; }
 .dp-3 { --radius: 290px; }
 
-/* ── The Event Horizon & Photon Ring ── */
+/* ── The Solar Core (Replaces Black Hole) ── */
 .bh-core {
   position: absolute;
   top: 50%;
@@ -151,44 +151,101 @@
   transform: translate(-50%, -50%);
   transform-style: preserve-3d;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Pure black hole center */
-.bh-event-horizon {
+.bh-solar-core {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: #000;
-  box-shadow: 
-    inset 0 0 40px rgba(0,0,0,1),
-    0 0 10px rgba(0,0,0,1);
+  background: radial-gradient(circle, rgba(251,146,60,0.15) 0%, transparent 70%);
+  box-shadow: 0 0 60px rgba(249,115,22,0.4);
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Photon sphere (the intense ring of light bending around the black hole) */
-.bh-photon-ring {
+.bh-solar-text {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(249, 115, 22, 0.8), 0 0 30px rgba(249, 115, 22, 0.4);
+  letter-spacing: -0.5px;
+  text-align: center;
+  line-height: 1.1;
+  /* Counter-tilt to make text face camera since it's inside the tilted disk group */
+  transform: rotateX(-75deg);
+}
+.bh-solar-text span {
+  color: #f97316;
+}
+
+/* ── Orbiting Services ── */
+.orbit-track {
   position: absolute;
-  top: -15%;
-  left: -15%;
-  right: -15%;
-  bottom: -15%;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    transparent 50%,
-    rgba(255, 237, 213, 0.9) 58%,
-    rgba(249, 115, 22, 0.8) 65%,
-    transparent 75%
-  );
-  filter: blur(3px);
-  z-index: 1;
-  box-shadow: 0 0 60px rgba(251, 146, 60, 0.6);
-  animation: photonPulse 2s ease-in-out infinite alternate;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
 }
 
-@keyframes photonPulse {
-  0% { transform: scale(0.98); opacity: 0.8; }
-  100% { transform: scale(1.02); opacity: 1; }
+.orbit-1 { animation: spinZ 16s linear infinite; }
+.orbit-2 { animation: spinZ 24s linear infinite; }
+.orbit-3 { animation: spinZ 36s linear infinite; }
+
+.planet {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform-style: preserve-3d;
+}
+.planet-1 { transform: translate(-50%, -50%) translateX(170px); }
+.planet-2 { transform: translate(-50%, -50%) translateX(230px); }
+.planet-3 { transform: translate(-50%, -50%) translateX(290px); }
+
+.counter-1 { animation: counterSpinZ 16s linear infinite reverse; }
+.counter-2 { animation: counterSpinZ 24s linear infinite reverse; }
+.counter-3 { animation: counterSpinZ 36s linear infinite reverse; }
+
+@keyframes counterSpinZ {
+  0% { transform: rotateZ(0deg) rotateX(-75deg); }
+  100% { transform: rotateZ(360deg) rotateX(-75deg); }
+}
+
+.service-planet {
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(249, 115, 22, 0.4);
+  border-radius: 12px;
+  padding: 8px 16px;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.service-planet:hover {
+  transform: scale(1.1);
+  border-color: rgba(249, 115, 22, 0.8);
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+}
+.service-planet .title {
+  color: #fb923c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.service-planet .desc {
+  color: rgba(255,255,255,0.7);
+  font-size: 9px;
+  margin-top: 2px;
 }
 
 /* ── Relativistic Jet (Tech energy beam) ── */
