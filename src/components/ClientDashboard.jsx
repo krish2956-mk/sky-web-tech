@@ -287,6 +287,10 @@ export default function ClientDashboard() {
       });
     });
 
+    newSocket.on('milestone_deleted', (data) => {
+      setMilestones(prev => prev.filter(mx => mx.id !== data.id));
+    });
+
     // Listen for real-time file updates
     newSocket.on('file_uploaded', (data) => {
       if (String(data.projectId) === String(activeProject.id)) {

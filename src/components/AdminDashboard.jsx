@@ -368,6 +368,10 @@ export default function AdminDashboard() {
       });
     });
 
+    newSocket.on('milestone_deleted', (data) => {
+      setMilestones(prev => prev.filter(mx => mx.id !== data.id));
+    });
+
     newSocket.on('file_uploaded', (data) => {
       if (String(data.projectId) === String(selectedProjectId)) {
         fetchProjectFiles(selectedProjectId);
@@ -662,8 +666,8 @@ export default function AdminDashboard() {
               { key: 'overview', label: 'Overview', Icon: LayoutDashboard },
               { key: 'manager', label: 'Project Manager', Icon: Briefcase },
               { key: 'files',  label: 'Files & Assets', Icon: FolderOpen },
-              { key: 'requests', label: 'Client Requests', Icon: MessageSquare },
-            ].map(({ key, label, Icon }) => (
+              { key: 'requests', label: 'Client Requests', Icon: MessageSquare, badge: requests.filter(r => r.status === 'Pending').length },
+            ].map(({ key, label, Icon, badge }) => (
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
@@ -684,6 +688,11 @@ export default function AdminDashboard() {
                 <span className={`relative z-10 transition-colors ${activeTab === key ? 'text-slate-900 font-semibold' : 'text-slate-500 hover:text-slate-700'}`}>
                   {label}
                 </span>
+                {badge > 0 && (
+                  <span className="relative z-10 ml-1.5 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">
+                    {badge}
+                  </span>
+                )}
               </button>
             ))}
           </div>
