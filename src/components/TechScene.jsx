@@ -68,9 +68,15 @@ export default function TechScene() {
         <motion.div animate={{ opacity: [0, 1, 0], scale: [0.5, 1.5, 0.5] }} transition={{ duration: 3.5, delay: 2, repeat: Infinity, ease: "easeInOut" }} className="absolute -top-2 left-1/3 w-1 h-1 bg-white rounded-full shadow-[0_0_8px_1px_rgba(255,255,255,0.8)] z-0" />
 
         {/* The Black Core */}
-        <div className="relative w-44 h-44 rounded-full bg-[#050200] z-10 shadow-[0_0_40px_rgba(249,115,22,0.15),inset_0_0_20px_rgba(0,0,0,1)] border border-orange-500/20 flex flex-col items-center justify-center">
-          <span className="text-white text-5xl font-bold tracking-tight">200+</span>
-          <span className="text-white/60 text-[10px] mt-1 uppercase tracking-widest font-bold">Client Projects</span>
+        <div 
+          className="relative w-44 h-44 rounded-full bg-black z-10 flex flex-col items-center justify-center"
+          style={{
+             boxShadow: '0 0 60px rgba(249,115,22,0.2), inset 0 0 40px rgba(249,115,22,0.4), inset 0 0 80px rgba(0,0,0,0.9)',
+             border: '1px solid rgba(249,115,22,0.4)'
+          }}
+        >
+          <span className="text-white text-5xl font-bold tracking-tight z-20 relative drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">200+</span>
+          <span className="text-white/70 text-[10px] mt-1 uppercase tracking-widest font-bold z-20 relative drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">Client Projects</span>
         </div>
       </div>
 
