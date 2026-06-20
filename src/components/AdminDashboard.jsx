@@ -225,16 +225,13 @@ export default function AdminDashboard() {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${API_URL}/api/milestones/project/${activeProject.id}`, {
+      await fetch(`${API_URL}/api/milestones/project/${activeProject.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ title: 'New Milestone', status: 'Pending', completion_percentage: 0 })
       });
-      
-      if (res.ok) {
-        const data = await res.json();
-        setMilestones(prev => [...prev, data.milestone]);
-      }
+      // Do not manually append to setMilestones here. 
+      // The backend emits a 'milestone_update' socket event which handles adding it to the UI automatically.
     } catch (err) {
       console.error("Error adding milestone:", err);
     }
