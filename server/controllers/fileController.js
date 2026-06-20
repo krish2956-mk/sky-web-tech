@@ -19,7 +19,7 @@ export const uploadFile = async (req, res) => {
     }
 
     const fileName = req.file.originalname;
-    const filePath = req.file.path.replace(/\\/g, '/'); // Normalize slashes for web url
+    const filePath = `/uploads/${req.file.filename}`;
 
     const [result] = await db.query(
       'INSERT INTO files (project_id, uploaded_by, file_name, file_path) VALUES (?, ?, ?, ?)',
@@ -30,7 +30,7 @@ export const uploadFile = async (req, res) => {
       req.io.to(`project_${projectId}`).emit('file_uploaded', { projectId });
     }
 
-    res.status(201).json({ message: 'File uploaded successfully.', fileId: result.insertId, filePath: `/${filePath}`, fileName });
+    res.status(201).json({ message: 'File uploaded successfully.', fileId: result.insertId, filePath, fileName });
   } catch (error) {
     res.status(500).json({ message: 'Server error while uploading file.', error: error.message });
   }

@@ -7,11 +7,17 @@ import { Server } from 'socket.io';
 
 dotenv.config();
 
+const ALLOWED_ORIGINS = [
+  'http://localhost:5173',
+  'https://sky-web-tech.vercel.app',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.FRONTEND_URL ? [process.env.FRONTEND_URL, 'http://localhost:5173'] : 'http://localhost:5173',
+    origin: ALLOWED_ORIGINS,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }
@@ -61,12 +67,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ALLOWED_ORIGINS,
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Ensure uploads directory exists (Render uses ephemeral filesystem)
+import fs from 'fs';
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 // Serve uploaded files statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadsDir));
 
 // Routes Integration
 app.use('/api/auth', authRoutes);
