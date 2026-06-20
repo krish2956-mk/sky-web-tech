@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProjects, createProject, updateProject } from '../controllers/projectController.js';
+import { getProjects, createProject, updateProject, deleteProject } from '../controllers/projectController.js';
 import { verifyToken, isAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -10,5 +10,6 @@ router.use(verifyToken);
 router.get('/', getProjects);
 router.post('/', isAdmin, createProject);
 router.put('/:id', isAdmin, updateProject);
+router.delete('/:id', isAdmin, deleteProject);
 
 export default router;

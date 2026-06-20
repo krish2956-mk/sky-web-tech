@@ -58,3 +58,16 @@ export const updateProject = async (req, res) => {
     res.status(500).json({ message: 'Server error while updating project.', error: error.message });
   }
 };
+
+// Delete project (Admin only)
+export const deleteProject = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Rely on ON DELETE CASCADE for related records or just delete the project
+    await db.query('DELETE FROM projects WHERE id = ?', [id]);
+    res.status(200).json({ message: 'Project deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error while deleting project.', error: error.message });
+  }
+};

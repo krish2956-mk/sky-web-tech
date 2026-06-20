@@ -110,7 +110,7 @@ export default function AdminDashboard() {
   const [pendingAdminUpload, setPendingAdminUpload] = useState(null);
   const [isAdminUploading, setIsAdminUploading] = useState(false);
 
-  const projectMilestones = activeProject ? milestones.filter(m => m.project_id === activeProject.id) : [];
+  const projectMilestones = activeProject ? milestones.filter(m => m.project_id == activeProject.id) : [];
 
   const fetchMilestones = async (projectId) => {
     try {
@@ -277,6 +277,32 @@ export default function AdminDashboard() {
       console.error("Error updating project settings:", err);
     } finally {
       setIsSavingProject(false);
+    }
+  };
+
+  const [isDeletingProject, setIsDeletingProject] = useState(false);
+  const handleDeleteProject = async () => {
+    if (!activeProject || !window.confirm(`Are you sure you want to delete "${activeProject.title}"? This cannot be undone.`)) return;
+    setIsDeletingProject(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/api/projects/${activeProject.id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setProjects(prev => prev.filter(p => p.id !== activeProject.id));
+        if (projects.length > 1) {
+          setSelectedProjectId(projects.find(p => p.id !== activeProject.id).id);
+        } else {
+          setSelectedProjectId(null);
+          setActiveTab('overview');
+        }
+      }
+    } catch (err) {
+      console.error("Error deleting project:", err);
+    } finally {
+      setIsDeletingProject(false);
     }
   };
 
@@ -479,6 +505,7 @@ export default function AdminDashboard() {
 
   // Wizard State
   const [wizardStep, setWizardStep] = useState(1);
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [wizardData, setWizardData] = useState({
     title: '', description: '', deadline: '',
     clientMode: 'existing', clientId: '', newClientName: '', newClientEmail: '',
@@ -490,6 +517,8 @@ export default function AdminDashboard() {
       setWizardStep(wizardStep + 1);
     } else {
       // Complete Wizard
+      if (isCreatingProject) return;
+      setIsCreatingProject(true);
       try {
         const token = localStorage.getItem('token');
         let finalClientId = wizardData.clientId;
@@ -544,6 +573,8 @@ export default function AdminDashboard() {
         }
       } catch (err) {
         console.error("Error creating project", err);
+      } finally {
+        setIsCreatingProject(false);
       }
 
       setActiveTab('overview');
@@ -936,14 +967,24 @@ export default function AdminDashboard() {
                           />
                         </div>
                       </div>
-                      <button 
-                        onClick={handleSaveProjectSettings}
-                        disabled={isSavingProject}
-                        className="mt-6 bg-slate-900 text-white font-bold text-sm px-6 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-colors disabled:opacity-70 flex items-center gap-2"
-                      >
-                        {isSavingProject ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                        Save Changes
-                      </button>
+                      <div className="flex items-center gap-4 mt-6">
+                        <button 
+                          onClick={handleSaveProjectSettings}
+                          disabled={isSavingProject}
+                          className="bg-slate-900 text-white font-bold text-sm px-6 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition-colors disabled:opacity-70 flex items-center gap-2"
+                        >
+                          {isSavingProject ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                          Save Changes
+                        </button>
+                        <button 
+                          onClick={handleDeleteProject}
+                          disabled={isDeletingProject}
+                          className="bg-red-50 text-red-600 font-bold text-sm px-6 py-2.5 rounded-xl shadow-sm border border-red-100 hover:bg-red-100 transition-colors disabled:opacity-70 flex items-center gap-2 ml-auto"
+                        >
+                          {isDeletingProject ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                          Delete Project
+                        </button>
+                      </div>
                     </div>
 
                     {/* Milestone Controller */}
@@ -1388,8 +1429,10 @@ export default function AdminDashboard() {
                       
                       <button 
                         onClick={handleWizardNext}
-                        className="px-6 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-bold text-sm rounded-xl shadow-sm shadow-teal-500/20 transition-all flex items-center gap-2"
+                        disabled={isCreatingProject}
+                        className="px-6 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-bold text-sm rounded-xl shadow-sm shadow-teal-500/20 transition-all flex items-center gap-2 disabled:opacity-70"
                       >
+                        {isCreatingProject && wizardStep === 3 ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                         {wizardStep === 3 ? 'Create Project' : 'Next Step'}
                       </button>
                     </div>

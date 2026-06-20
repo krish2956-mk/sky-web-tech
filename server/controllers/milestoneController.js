@@ -33,7 +33,7 @@ export const createMilestone = async (req, res) => {
 
     const newMilestone = {
       id: result.insertId,
-      project_id: projectId,
+      project_id: Number(projectId),
       title,
       status: status || 'Pending',
       completion_percentage: completion_percentage || 0
