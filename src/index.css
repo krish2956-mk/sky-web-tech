@@ -176,8 +176,6 @@
   letter-spacing: -0.5px;
   text-align: center;
   line-height: 1.1;
-  /* Counter-tilt to make text face camera since it's inside the tilted disk group */
-  transform: rotateX(-75deg);
 }
 .bh-solar-text span {
   color: #f97316;
@@ -197,6 +195,11 @@
 .orbit-2 { animation: spinZ 24s linear infinite; }
 .orbit-3 { animation: spinZ 36s linear infinite; }
 
+@keyframes spinZ {
+  from { transform: rotateZ(0deg); }
+  to { transform: rotateZ(360deg); }
+}
+
 .planet {
   position: absolute;
   top: 50%; left: 50%;
@@ -206,13 +209,13 @@
 .planet-2 { transform: translate(-50%, -50%) translateX(230px); }
 .planet-3 { transform: translate(-50%, -50%) translateX(290px); }
 
-.counter-1 { animation: counterSpinZ 16s linear infinite reverse; }
-.counter-2 { animation: counterSpinZ 24s linear infinite reverse; }
-.counter-3 { animation: counterSpinZ 36s linear infinite reverse; }
+.counter-1 { animation: counterSpinZ 16s linear infinite; transform-style: preserve-3d; }
+.counter-2 { animation: counterSpinZ 24s linear infinite; transform-style: preserve-3d; }
+.counter-3 { animation: counterSpinZ 36s linear infinite; transform-style: preserve-3d; }
 
 @keyframes counterSpinZ {
-  0% { transform: rotateZ(0deg) rotateX(-75deg); }
-  100% { transform: rotateZ(360deg) rotateX(-75deg); }
+  from { transform: rotateZ(0deg) rotateX(-75deg); }
+  to { transform: rotateZ(-360deg) rotateX(-75deg); }
 }
 
 .service-planet {
