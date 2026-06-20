@@ -396,11 +396,11 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="w-full lg:w-1/2 relative"
+                    className="w-full lg:w-1/2 relative -mt-20 lg:mt-0"
                   >
                     {/* Mobile-only nav removed from here */}
 
-                    <h1 className="text-[2.75rem] sm:text-[3rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.15] md:leading-[1.1] tracking-tight font-bold">
+                    <h1 className="text-[2.5rem] sm:text-[3rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.05] md:leading-[1.1] tracking-tight font-bold">
                       <span className="text-[#0a0a0f]">
                         Unlock Seamless <br />
                         Project Delivery <br />
