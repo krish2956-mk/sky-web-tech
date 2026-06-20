@@ -7,6 +7,7 @@ import {
   ArrowRight, CheckCircle2, LogOut
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import BubbleScene from './BubbleScene';
 
 // ─── Page Content Definitions ────────────────────────────────────
 
@@ -428,105 +429,9 @@ export default function LandingPage() {
                       <ChevronRight className="w-4 h-4 text-white/70 group-hover:translate-x-1 transition-transform relative z-10" />
                     </motion.button>
                   </motion.div>
-
-                  {/* ── 3D Black Hole / Tech Core — Desktop Only ── */}
-                  <div className="hidden lg:flex w-full lg:w-1/2 items-center justify-center lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[520px] pointer-events-none z-10">
-                    <div className="bh-scene">
-                      {/* Ambient outer glow */}
-                      <div className="bh-glow" />
-                      
-                      {/* Accretion Disk (Horizontal rings) */}
-                      <div className="bh-disk-group">
-                        <div className="bh-disk disk-1" />
-                        <div className="bh-disk disk-2" />
-                        <div className="bh-disk disk-3" />
-                        
-                        {/* Data particles orbiting in the disk */}
-                        <div className="data-particle dp-1" />
-                        <div className="data-particle dp-2" />
-                        <div className="data-particle dp-3" />
-
-                        {/* ── Solar System Orbits ── */}
-                        
-                        {/* Orbit 1: Inner (16s cycle, offset by 8s) */}
-                        <div className="orbit-track orbit-1" style={{ animationDelay: '0s' }}>
-                          <div className="planet planet-1">
-                            <div className="counter-1" style={{ animationDelay: '0s' }}>
-                              <div className="service-planet pointer-events-auto">
-                                <span className="title">UI/UX Design</span>
-                                <span className="desc">Pixel-perfect</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="orbit-track orbit-1" style={{ animationDelay: '-8s' }}>
-                          <div className="planet planet-1">
-                            <div className="counter-1" style={{ animationDelay: '-8s' }}>
-                              <div className="service-planet pointer-events-auto">
-                                <span className="title">Web Dev</span>
-                                <span className="desc">Scalable backend</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Orbit 2: Middle (24s cycle, offset by 12s) */}
-                        <div className="orbit-track orbit-2" style={{ animationDelay: '0s' }}>
-                          <div className="planet planet-2">
-                            <div className="counter-2" style={{ animationDelay: '0s' }}>
-                              <div className="service-planet pointer-events-auto">
-                                <span className="title">App Dev</span>
-                                <span className="desc">iOS & Android</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="orbit-track orbit-2" style={{ animationDelay: '-12s' }}>
-                          <div className="planet planet-2">
-                            <div className="counter-2" style={{ animationDelay: '-12s' }}>
-                              <div className="service-planet pointer-events-auto">
-                                <span className="title">Cloud Deploy</span>
-                                <span className="desc">Zero downtime</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Orbit 3: Outer (36s cycle, offset by 18s) */}
-                        <div className="orbit-track orbit-3" style={{ animationDelay: '0s' }}>
-                          <div className="planet planet-3">
-                            <div className="counter-3" style={{ animationDelay: '0s' }}>
-                              <div className="service-planet pointer-events-auto">
-                                <span className="title">E-Commerce</span>
-                                <span className="desc">Shopify & Custom</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="orbit-track orbit-3" style={{ animationDelay: '-18s' }}>
-                          <div className="planet planet-3">
-                            <div className="counter-3" style={{ animationDelay: '-18s' }}>
-                              <div className="service-planet pointer-events-auto">
-                                <span className="title">Dedicated Team</span>
-                                <span className="desc">Staff Augmentation</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* The Event Horizon (Replaced with Solar Core text) */}
-                      <div className="bh-core">
-                        <div className="bh-solar-core">
-                          <h2 className="bh-solar-text">
-                            SkyWeb<br/><span>Tech</span>
-                          </h2>
-                        </div>
-                      </div>
-
-                      {/* Vertical Energy Jet (Optional but adds to the tech feel) */}
-                      <div className="bh-jet" />
-                    </div>
+                  {/* ── 3D Dense Bubble Cloud — Desktop Only ── */}
+                  <div className="hidden lg:flex w-full lg:w-1/2 items-center justify-center lg:absolute lg:right-[5%] lg:top-1/2 lg:-translate-y-1/2 h-[600px] pointer-events-none z-10">
+                    <BubbleScene />
                   </div>
 
                   {/* ── Mobile Orange Bubbles Animation ── */}
