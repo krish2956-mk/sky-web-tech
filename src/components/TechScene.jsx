@@ -71,8 +71,8 @@ export default function TechScene() {
         <div 
           className="relative w-44 h-44 rounded-full bg-black z-10 flex flex-col items-center justify-center"
           style={{
-             boxShadow: '0 0 60px rgba(249,115,22,0.2), inset 0 0 40px rgba(249,115,22,0.4), inset 0 0 80px rgba(0,0,0,0.9)',
-             border: '1px solid rgba(249,115,22,0.4)'
+             boxShadow: '0 0 40px rgba(0,0,0,0.8), 0 0 80px rgba(0,0,0,0.6)',
+             border: 'none'
           }}
         >
           <span className="text-white text-5xl font-bold tracking-tight z-20 relative drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">200+</span>
