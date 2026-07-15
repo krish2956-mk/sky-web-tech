@@ -17,22 +17,27 @@ const NAV_LINKS = [
   { key: 'contact',  label: 'Contact' },
 ];
 
-const PageTabs = ({ activePage, navigate }) => (
-  <div className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-black/40 backdrop-blur-xl rounded-full p-2 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+const PageTabs = ({ activePage, navigate, className = '' }) => (
+  <div className={`md:hidden flex items-center gap-1 bg-black/20 backdrop-blur-md rounded-full px-1 py-1 border border-white/10 w-fit shadow-lg max-w-[calc(100vw-4rem)] overflow-x-auto shrink-0 ${className}`}>
     <button
       onClick={() => navigate('home')}
-      className={`flex items-center justify-center w-11 h-11 rounded-full text-sm font-medium transition-all duration-300 ${
-        activePage === 'home' ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)] scale-105' : 'text-white/60 hover:text-white hover:bg-white/10'
+      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-all shrink-0 ${
+        activePage === 'home'
+          ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-sm'
+          : 'text-white/70 hover:text-white hover:bg-white/10'
       }`}
     >
-      <Home className="w-5 h-5" />
+      <Home className="w-4 h-4" />
+      <span className="md:hidden">Home</span>
     </button>
     {NAV_LINKS.map(({ key, label }) => (
       <button
         key={key}
         onClick={() => navigate(key)}
-        className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-          activePage === key ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)] scale-105' : 'text-white/60 hover:text-white hover:bg-white/10'
+        className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all shrink-0 ${
+          activePage === key
+            ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-sm'
+            : 'text-white/70 hover:text-white hover:bg-white/10'
         }`}
       >
         {label}
@@ -42,7 +47,8 @@ const PageTabs = ({ activePage, navigate }) => (
 );
 
 const SERVICES_CONTENT = ({ activePage, navigate }) => (
-  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 pt-16 pb-32 md:py-16">
+  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 pt-16 pb-16">
+    <PageTabs activePage={activePage} navigate={navigate} className="mb-8" />
     <div className="mb-12">
       <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-3 drop-shadow-md">What We Do</p>
       <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-4 drop-shadow-lg">
@@ -113,7 +119,8 @@ const SERVICES_CONTENT = ({ activePage, navigate }) => (
 );
 
 const COMPANY_CONTENT = ({ activePage, navigate }) => (
-  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 pt-16 pb-32 md:py-16">
+  <div className="w-full max-w-6xl mx-auto px-8 md:px-12 pt-16 pb-16">
+    <PageTabs activePage={activePage} navigate={navigate} className="mb-8" />
     <div className="mb-12">
       <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-3 drop-shadow-md">Who We Are</p>
       <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-4 drop-shadow-lg">
@@ -179,7 +186,8 @@ const COMPANY_CONTENT = ({ activePage, navigate }) => (
 );
 
 const CONTACT_CONTENT = ({ activePage, navigate }) => (
-  <div className="w-full max-w-5xl mx-auto px-8 md:px-12 pt-16 pb-32 md:py-16">
+  <div className="w-full max-w-5xl mx-auto px-8 md:px-12 pt-16 pb-16">
+    <PageTabs activePage={activePage} navigate={navigate} className="mb-8" />
     <div className="mb-14 text-center max-w-3xl mx-auto">
       <p className="text-white/80 text-sm font-bold uppercase tracking-widest mb-4 drop-shadow-md">Get In Touch</p>
       <h2 className="text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight mb-6 drop-shadow-lg">
@@ -302,7 +310,7 @@ export default function LandingPage() {
         </AnimatePresence>
 
         {/* ─── TOP NAVBAR ─────────────────────────────────────────── */}
-        <nav className="relative z-20 w-full px-8 md:px-12 pt-8 flex items-center justify-between shrink-0">
+        <nav className="relative z-20 w-full px-4 md:px-12 pt-6 md:pt-8 pb-4 flex flex-wrap items-center justify-between gap-y-4 shrink-0">
           <button
             onClick={() => navigate('home')}
             className="flex items-center gap-3 group"
@@ -351,12 +359,12 @@ export default function LandingPage() {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
             {!isLoggedIn ? (
-              <Link to="/auth" className="text-white font-medium text-sm hover:text-white/80">Log In</Link>
+              <Link to="/auth" className="text-white font-medium text-xs md:text-sm hover:text-white/80">Log In</Link>
             ) : (
-              <div className="flex items-center gap-3 border-r border-white/20 pr-6 mr-[-8px]">
-                <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/30 text-orange-200 text-xs font-bold">
+              <div className="flex items-center gap-2 border-r border-white/20 pr-3 md:pr-6 md:mr-[-8px]">
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/30 text-orange-200 text-[10px] md:text-xs font-bold">
                   {initials}
                 </div>
                 <button 
@@ -364,16 +372,17 @@ export default function LandingPage() {
                   className="p-1 text-white/50 hover:text-orange-400 transition-colors"
                   title="Sign Out"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </button>
               </div>
             )}
             <Link
               to={isLoggedIn ? dashboardPath : "/auth"}
-              className="text-white/70 hover:text-white font-medium text-sm flex items-center gap-2 transition-colors"
+              className="text-white/90 hover:text-white font-medium text-xs md:text-sm flex items-center gap-1.5 transition-colors bg-white/10 px-3 py-1.5 rounded-full md:bg-transparent md:px-0 md:py-0 md:rounded-none"
             >
-              {isLoggedIn ? 'Dashboard' : 'Client Portal'}
-              <ArrowRight className="w-4 h-4" />
+              <span className="hidden sm:inline">{isLoggedIn ? 'Dashboard' : 'Client Portal'}</span>
+              <span className="sm:hidden">{isLoggedIn ? 'Dash' : 'Portal'}</span>
+              <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </Link>
           </div>
         </nav>
@@ -397,11 +406,11 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="w-full lg:w-1/2 relative -mt-20 lg:mt-0"
+                    className="w-full lg:w-1/2 relative pt-8 md:pt-0"
                   >
-                    {/* Mobile-only nav removed from here */}
+                    <PageTabs activePage={activePage} navigate={navigate} className="mb-6" />
 
-                    <h1 className="text-[3.25rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.15] md:leading-[1.1] tracking-tight font-bold">
+                    <h1 className="text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.15] md:leading-[1.1] tracking-tight font-bold">
                       <span className="text-[#0a0a0f]">
                         Unlock Seamless <br />
                         Project Delivery <br />

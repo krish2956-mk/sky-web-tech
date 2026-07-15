@@ -1,5 +1,22 @@
 import db from '../config/db.js';
 
+// Clear all messages for a project (Admin only)
+export const clearMessages = async (req, res) => {
+  const { projectId } = req.params;
+
+  try {
+    await db.query('DELETE FROM messages WHERE project_id = ?', [projectId]);
+
+    if (req.io) {
+      req.io.to(`project_${projectId}`).emit('chat_cleared', { projectId });
+    }
+
+    res.status(200).json({ message: 'Chat cleared successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error while clearing messages.', error: error.message });
+  }
+};
+
 // Get messages for a specific project
 export const getMessages = async (req, res) => {
   const { projectId } = req.params;
@@ -69,5 +86,43 @@ export const postMessage = async (req, res) => {
     res.status(201).json({ message: 'Message sent successfully.', messageId: result.insertId, message: newMessage });
   } catch (error) {
     res.status(500).json({ message: 'Server error while sending message.', error: error.message });
+  }
+};
+
+// Delete a message
+// RBAC: Admin can delete any message. Client can only delete their own messages,
+// and only within a project they own.
+export const deleteMessage = async (req, res) => {
+  const { messageId } = req.params;
+
+  try {
+    const [rows] = await db.query('SELECT * FROM messages WHERE id = ?', [messageId]);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Message not found.' });
+    }
+    const targetMessage = rows[0];
+
+    if (req.user.role === 'Client') {
+      if (targetMessage.sender_id !== req.user.id) {
+        return res.status(403).json({ message: 'Access denied. You can only delete your own messages.' });
+      }
+      const [projects] = await db.query('SELECT id FROM projects WHERE id = ? AND client_id = ?', [targetMessage.project_id, req.user.id]);
+      if (projects.length === 0) {
+        return res.status(403).json({ message: 'Access denied. You can only delete messages in your own projects.' });
+      }
+    }
+
+    await db.query('DELETE FROM messages WHERE id = ?', [messageId]);
+
+    if (req.io) {
+      req.io.to(`project_${targetMessage.project_id}`).emit('message_deleted', {
+        id: Number(messageId),
+        project_id: targetMessage.project_id
+      });
+    }
+
+    res.status(200).json({ message: 'Message deleted successfully.', id: Number(messageId) });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error while deleting message.', error: error.message });
   }
 };

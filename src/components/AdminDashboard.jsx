@@ -307,7 +307,28 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
   const [socket, setSocket] = useState(null);
+  const [isClearingChat, setIsClearingChat] = useState(false);
   const chatEndRef = useRef(null);
+
+  const handleClearChat = async () => {
+    if (!selectedProjectId) return;
+    if (!window.confirm('Are you sure you want to delete all chat messages for this project? This cannot be undone.')) return;
+    setIsClearingChat(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/api/messages/project/${selectedProjectId}/clear`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setChatMessages([]);
+      }
+    } catch (err) {
+      console.error('Error clearing chat:', err);
+    } finally {
+      setIsClearingChat(false);
+    }
+  };
 
   useEffect(() => {
     if (!selectedProjectId) return;
@@ -370,6 +391,14 @@ export default function AdminDashboard() {
 
     newSocket.on('milestone_deleted', (data) => {
       setMilestones(prev => prev.filter(mx => mx.id !== data.id));
+    });
+
+    newSocket.on('message_deleted', (data) => {
+      setChatMessages(prev => prev.filter(mx => mx.id !== data.id));
+    });
+
+    newSocket.on('chat_cleared', () => {
+      setChatMessages([]);
     });
 
     newSocket.on('file_uploaded', (data) => {
@@ -965,12 +994,19 @@ export default function AdminDashboard() {
                         </div>
                         <div>
                           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Target Deadline</label>
+                          <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-xl px-3 py-2 mb-2">
+                            <span className="text-[11px] font-bold text-orange-500 uppercase tracking-wider">Current:</span>
+                            <span className="text-sm font-bold text-slate-800">
+                              {activeProject?.end_date ? new Date(activeProject.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Not Set'}
+                            </span>
+                          </div>
                           <input 
                             type="date" 
                             value={projectEditData.end_date} 
                             onChange={e => setProjectEditData({...projectEditData, end_date: e.target.value})} 
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-orange-500 transition-colors" 
                           />
+                          <p className="text-[10px] text-slate-400 mt-1 font-medium">Pick a new date to update the deadline</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-4 mt-6">
@@ -1057,7 +1093,18 @@ export default function AdminDashboard() {
                           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                           <h3 className="text-sm font-bold text-slate-900">Client Chat</h3>
                         </div>
-                        <span className="text-[10px] bg-white px-2 py-1 rounded-full border border-slate-200 font-bold text-slate-500">Replying as Admin</span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={handleClearChat}
+                            disabled={isClearingChat || chatMessages.length === 0}
+                            title="Delete all chat messages"
+                            className="flex items-center gap-1.5 text-xs font-bold text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 border border-red-100 px-2.5 py-1 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
+                            {isClearingChat ? <Loader2 className="w-3 h-3 animate-spin" /> : <Trash2 className="w-3 h-3" />}
+                            Clear Chat
+                          </button>
+                          <span className="text-[10px] bg-white px-2 py-1 rounded-full border border-slate-200 font-bold text-slate-500">Replying as Admin</span>
+                        </div>
                       </div>
                       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 bg-[#FDFBF7]/30">
                         {chatMessages.map(msg => (

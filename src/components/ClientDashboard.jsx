@@ -25,7 +25,8 @@ import {
   FileArchive,
   LogOut,
   Briefcase,
-  Cloud
+  Cloud,
+  Trash2
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../config.js';
