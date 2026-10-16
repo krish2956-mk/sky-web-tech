@@ -7,20 +7,36 @@ import { Server } from 'socket.io';
 
 dotenv.config();
 
-const ALLOWED_ORIGINS = [
-  'http://localhost:5173',
-  'https://sky-web-tech.vercel.app',
-  process.env.FRONTEND_URL
-].filter(Boolean);
+// Allow the production Vercel app, all Vercel preview URLs, and localhost
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true; // allow non-browser clients (curl, Postman, etc.)
+  if (origin === 'http://localhost:5173') return true;
+  if (origin === 'http://localhost:3000') return true;
+  if (origin === 'https://sky-web-tech.vercel.app') return true;
+  // Allow all Vercel preview deployments (e.g. sky-web-tech-abc123.vercel.app)
+  if (/^https:\/\/sky-web-tech[\w-]*\.vercel\.app$/.test(origin)) return true;
+  // Allow any custom domain set via env
+  if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) return true;
+  return false;
+};
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (isAllowedOrigin(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: Origin '${origin}' not allowed`));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: {
-    origin: ALLOWED_ORIGINS,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-  }
+  cors: corsOptions
 });
 
 // Make io accessible in our routers
@@ -67,10 +83,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
-app.use(cors({
-  origin: ALLOWED_ORIGINS,
-  credentials: true
-}));
+app.use(cors(corsOptions));
+// Handle preflight OPTIONS requests
+app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
